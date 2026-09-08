@@ -4,333 +4,425 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ALGOONIA ACADEMY</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#fefce8',
-              100: '#fef9c3',
-              400: '#facc15',
-              500: '#eab308',
-              600: '#ca8a04',
-            }
+            brand: { 50: '#fefce8', 100: '#fef9c3', 400: '#facc15', 500: '#eab308', 600: '#ca8a04' }
           }
         }
       }
     }
   </script>
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Mencegah seleksi teks (Fitur Anti-Copas) */
-    .no-select {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    /* Memperbolehkan seleksi khusus untuk Vault */
-    .allow-select {
-      -webkit-user-select: text;
-      -moz-user-select: text;
-      -ms-user-select: text;
-      user-select: text;
-    }
+    /* Fitur Anti-Copas */
+    .no-select { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+    /* Pengecualian seleksi untuk Copy-Paste Vault */
+    .allow-select { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
+    /* Agar video iframe tampil responsif */
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 0.75rem; }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
   </style>
 </head>
 <body class="bg-gray-100 font-sans text-gray-800 antialiased flex justify-center min-h-screen">
 
-  <!-- Container Layar Mobile-First (Maksimal Lebar Layar HP) -->
-  <div class="w-full max-w-md bg-white shadow-xl min-h-screen flex flex-col relative pb-20">
+  <div class="w-full max-w-md bg-white shadow-xl min-h-screen flex flex-col relative">
 
     <!-- ==================================================== -->
     <!-- 1. HALAMAN LOGIN -->
     <!-- ==================================================== -->
     <div id="login-page" class="p-6 flex-1 flex flex-col justify-center">
       <div class="text-center mb-8">
-        <div class="w-16 h-16 bg-brand-500 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-lg shadow-yellow-200 mb-4">
-          A
-        </div>
-        <h1 class="text-2xl font-black tracking-tight text-gray-900">ALGOONIA ACADEMY</h1>
-        <p class="text-sm text-gray-500 mt-1">Pusat Panduan & Pelatihan Eksklusif</p>
+        <div class="w-16 h-16 bg-brand-500 rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-lg shadow-yellow-200 mb-4">A</div>
+        <h1 class="text-2xl font-black tracking-tight text-gray-900">ALGOONIA</h1>
+        <p class="text-sm text-gray-500 mt-1">Pusat Panduan & Pelatihan</p>
       </div>
-
       <div class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-gray-600 mb-1">EMAIL PESERTA</label>
-          <input type="email" id="email" placeholder="nama@email.com" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <input type="email" id="email" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
         <div>
           <label class="block text-xs font-bold text-gray-600 mb-1">PIN AKSES</label>
-          <input type="password" id="pin" placeholder="Masukkan PIN" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <input type="password" id="pin" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
-        <button id="btn-login" onclick="prosesLogin()" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-md shadow-yellow-200 transition">
-          Masuk ke Pelatihan
-        </button>
-      </div>
-
-      <div class="mt-8 text-center text-xs text-gray-400">
-        Belum memiliki akses? Hubungi admin via WhatsApp untuk pendaftaran.
+        <button id="btn-login" onclick="prosesLogin()" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-md shadow-yellow-200">Masuk ke Pelatihan</button>
       </div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- 2. WADAH APLIKASI UTAMA (SETELAH LOGIN) -->
+    <!-- 2. WADAH APLIKASI UTAMA -->
     <!-- ==================================================== -->
-    <div id="app-container" class="hidden flex-1 flex flex-col">
+    <div id="app-container" class="hidden flex-1 flex flex-col pb-16">
       
-      <!-- HEADER APLIKASI -->
-      <header class="p-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-10">
+      <!-- HEADER UTAMA -->
+      <header id="main-header" class="p-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-10">
         <div class="flex items-center space-x-2">
           <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white font-black text-sm">A</div>
           <span class="font-extrabold tracking-tight text-gray-900 text-sm">ALGOONIA</span>
         </div>
-        <div class="text-xs bg-brand-50 text-brand-600 px-3 py-1 rounded-full font-bold">
-          Eksklusif Member
-        </div>
+        <div class="text-xs bg-brand-50 text-brand-600 px-3 py-1 rounded-full font-bold">Member Area</div>
       </header>
 
-      <!-- VIEW 1: HOME / KATALOG TOKO -->
-      <section id="view-home" class="p-4 space-y-4">
-        <div class="bg-gradient-to-r from-yellow-400 to-brand-500 rounded-2xl p-5 text-white shadow-md shadow-yellow-100">
-          <h2 class="font-extrabold text-lg leading-tight">Jelajahi Pelatihan</h2>
-          <p class="text-xs opacity-90 mt-1">Upgrade keahlian digital Anda dari nol sampai mahir.</p>
-        </div>
-
-        <div class="flex items-center justify-between pt-2">
-          <h3 class="text-xs font-black tracking-wider text-gray-400 uppercase">Katalog Tersedia</h3>
-        </div>
-
-        <!-- Wadah List Katalog Dinamis dari Spreadsheet -->
-        <div id="katalog-container" class="space-y-4">
-          <p class="text-center text-gray-400 text-sm py-8">Memuat data dari sistem...</p>
-        </div>
+      <!-- VIEW 1: HOME (KATALOG) -->
+      <section id="view-home" class="p-4 space-y-4 overflow-y-auto">
+        <div id="katalog-container" class="space-y-4"></div>
       </section>
 
       <!-- VIEW 2: BELAJAR (PELATIHAN SAYA) -->
-      <section id="view-belajar" class="hidden p-4 space-y-4">
+      <section id="view-belajar" class="hidden p-4 space-y-4 overflow-y-auto">
         <h2 class="text-lg font-black text-gray-900">Ruang Belajar Saya</h2>
-        <div id="belajar-container" class="space-y-4">
-          <!-- Card materi akan dimuat di sini -->
-        </div>
+        <div id="belajar-container" class="space-y-4"></div>
       </section>
 
-      <!-- VIEW 3: KONSULTASI (WHATSAPP) -->
-      <section id="view-konsultasi" class="hidden p-4 space-y-4">
+      <!-- VIEW 3 & 4 (KONSULTASI & PROFIL) -->
+      <section id="view-konsultasi" class="hidden p-4 space-y-4 overflow-y-auto">
         <div class="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm text-center">
-          <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-2xl mb-4">
-            <i class="fab fa-whatsapp"></i>
-          </div>
+          <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-2xl mb-4"><i class="fab fa-whatsapp"></i></div>
           <h2 class="font-bold text-gray-900 text-lg">Konsultasi Mentor</h2>
-          <p class="text-xs text-gray-500 mt-2">Punya pertanyaan seputar materi? Hubungi admin resmi untuk konsultasi langsung.</p>
-          <a href="https://wa.me/6281234567890?text=Halo%20Admin%20Algoonia%2C%20saya%20ingin%20konsultasi" target="_blank" class="mt-6 inline-flex items-center justify-center space-x-2 w-full py-3 bg-green-500 text-white font-bold rounded-xl text-sm shadow-md shadow-green-100">
-            <i class="fab fa-whatsapp text-lg"></i>
-            <span>Chat WhatsApp Sekarang</span>
-          </a>
+          <a href="https://wa.me/6281234567890" target="_blank" class="mt-6 inline-flex items-center justify-center space-x-2 w-full py-3 bg-green-500 text-white font-bold rounded-xl text-sm shadow-md"><i class="fab fa-whatsapp text-lg"></i><span>Chat WhatsApp</span></a>
+        </div>
+      </section>
+      <section id="view-profil" class="hidden p-4 space-y-4 overflow-y-auto">
+        <div class="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
+          <h3 id="user-name-display" class="font-bold text-gray-900 leading-tight">Nama</h3>
+          <p id="user-email-display" class="text-xs text-gray-400 mt-0.5">Email</p>
+          <button onclick="logout()" class="w-full mt-6 py-2.5 bg-red-50 text-red-600 text-sm font-bold rounded-xl">Keluar</button>
         </div>
       </section>
 
-      <!-- VIEW 4: PROFIL -->
-      <section id="view-profil" class="hidden p-4 space-y-4">
-        <div class="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
-          <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 font-bold text-lg">
-              <i class="fas fa-user"></i>
-            </div>
-            <div>
-              <h3 id="user-name-display" class="font-bold text-gray-900 leading-tight">Nama Member</h3>
-              <p id="user-email-display" class="text-xs text-gray-400 mt-0.5">member@email.com</p>
-            </div>
+      <!-- ==================================================== -->
+      <!-- VIEW 5: DAFTAR ISI (MODE BACA LEVEL 1) -->
+      <!-- ==================================================== -->
+      <section id="view-daftar-isi" class="hidden flex-1 bg-white z-20 flex flex-col">
+        <!-- Header Internal -->
+        <div class="p-4 border-b border-gray-100 flex items-center space-x-3 bg-white sticky top-0">
+          <button onclick="switchView('belajar')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200"><i class="fas fa-arrow-left"></i></button>
+          <h2 class="font-bold text-gray-900 text-sm">Daftar Modul</h2>
+        </div>
+        <div id="daftar-isi-container" class="p-4 flex-1 overflow-y-auto space-y-3">
+          <!-- List Bab muncul di sini -->
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- VIEW 6: ISI MATERI (MODE BACA LEVEL 2 / ANTI COPAS) -->
+      <!-- ==================================================== -->
+      <section id="view-materi" class="hidden flex-1 bg-white z-30 flex flex-col no-select">
+        <!-- Header Internal Materi -->
+        <div class="p-4 border-b border-gray-100 flex items-center space-x-3 bg-white sticky top-0 shadow-sm">
+          <button onclick="switchView('daftar-isi')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200"><i class="fas fa-arrow-left"></i></button>
+          <div class="flex-1 overflow-hidden">
+            <span id="label-bab" class="text-[10px] font-bold text-brand-600 uppercase">Bab 1</span>
+            <h2 id="judul-bab-materi" class="font-bold text-gray-900 text-sm truncate">Judul Materi</h2>
           </div>
-          <button onclick="logout()" class="w-full mt-6 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-bold rounded-xl transition">
-            Keluar (Logout)
+        </div>
+        <!-- Konten Materi -->
+        <div id="materi-konten-container" class="p-5 flex-1 overflow-y-auto text-gray-800 text-sm leading-relaxed pb-8">
+          <!-- Render HTML materi di sini -->
+        </div>
+        <!-- Navigasi Bawah Materi -->
+        <div class="p-4 border-t border-gray-100 bg-white flex items-center justify-between sticky bottom-0">
+          <button id="btn-prev-bab" onclick="navigasiBab('prev')" class="px-4 py-2 bg-gray-100 text-gray-600 rounded-xl text-xs font-bold w-[48%] flex items-center justify-center space-x-2 disabled:opacity-50">
+            <i class="fas fa-chevron-left"></i> <span>Sebelumnya</span>
+          </button>
+          <button id="btn-next-bab" onclick="navigasiBab('next')" class="px-4 py-2 bg-brand-500 text-white rounded-xl text-xs font-bold w-[48%] flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md shadow-yellow-100">
+            <span>Selanjutnya</span> <i class="fas fa-chevron-right"></i>
           </button>
         </div>
       </section>
 
       <!-- ==================================================== -->
-      <!-- BOTTOM NAVIGATION BAR -->
+      <!-- BOTTOM NAVIGATION BAR UTAMA -->
       <!-- ==================================================== -->
-      <nav class="fixed bottom-0 w-full max-w-md bg-white border-t border-gray-100 flex items-center justify-around py-2.5 z-20">
+      <nav id="bottom-nav" class="fixed bottom-0 w-full max-w-md bg-white border-t border-gray-100 flex items-center justify-around py-2.5 z-10">
         <button onclick="switchView('home')" class="nav-btn text-brand-600 flex flex-col items-center space-y-1" data-target="home">
-          <i class="fas fa-store text-lg"></i>
-          <span class="text-[10px] font-bold">Katalog</span>
+          <i class="fas fa-store text-lg"></i><span class="text-[10px] font-bold">Katalog</span>
         </button>
         <button onclick="switchView('belajar')" class="nav-btn text-gray-400 flex flex-col items-center space-y-1" data-target="belajar">
-          <i class="fas fa-book-open text-lg"></i>
-          <span class="text-[10px] font-bold">Belajar</span>
+          <i class="fas fa-book-open text-lg"></i><span class="text-[10px] font-bold">Belajar</span>
         </button>
         <button onclick="switchView('konsultasi')" class="nav-btn text-gray-400 flex flex-col items-center space-y-1" data-target="konsultasi">
-          <i class="fas fa-comments text-lg"></i>
-          <span class="text-[10px] font-bold">Konsultasi</span>
+          <i class="fas fa-comments text-lg"></i><span class="text-[10px] font-bold">Konsultasi</span>
         </button>
         <button onclick="switchView('profil')" class="nav-btn text-gray-400 flex flex-col items-center space-y-1" data-target="profil">
-          <i class="fas fa-user text-lg"></i>
-          <span class="text-[10px] font-bold">Profil</span>
+          <i class="fas fa-user text-lg"></i><span class="text-[10px] font-bold">Profil</span>
         </button>
       </nav>
 
     </div>
   </div>
 
-  <!-- ==================================================== -->
-  <!-- SCRIPT LOGIKA UTAMA -->
-  <!-- ==================================================== -->
   <script>
-    // GANTI TULISAN DI BAWAH INI DENGAN URL APPS SCRIPT ANDA (/exec)
-    const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec";
+    // ==========================================
+    // 1. URL API GOOGLE APPS SCRIPT
+    // ==========================================
+    const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec"; // <-- GANTI DENGAN URL ANDA
 
-    const loginPage = document.getElementById('login-page');
-    const appContainer = document.getElementById('app-container');
+    // ==========================================
+    // 2. VARIABEL GLOBAL (STATE)
+    // ==========================================
+    let daftarMateriAktif = []; // Menyimpan list bab pelatihan yang sedang dibuka
+    let indeksBabAktif = 0;     // Penanda sedang di bab berapa
+
+    // ==========================================
+    // 3. LOGIKA NAVIGASI HALAMAN
+    // ==========================================
     const views = {
-      home: document.getElementById('view-home'),
-      belajar: document.getElementById('view-belajar'),
-      konsultasi: document.getElementById('view-konsultasi'),
-      profil: document.getElementById('view-profil')
+      'home': document.getElementById('view-home'),
+      'belajar': document.getElementById('view-belajar'),
+      'konsultasi': document.getElementById('view-konsultasi'),
+      'profil': document.getElementById('view-profil'),
+      'daftar-isi': document.getElementById('view-daftar-isi'),
+      'materi': document.getElementById('view-materi')
     };
-    const navButtons = document.querySelectorAll('.nav-btn');
 
     function switchView(target) {
-      Object.keys(views).forEach(key => {
-        views[key].classList.toggle('hidden', key !== target);
-      });
-      navButtons.forEach(btn => {
-        const isActive = btn.dataset.target === target;
-        btn.classList.toggle('text-brand-600', isActive);
-        btn.classList.toggle('text-gray-400', !isActive);
-      });
+      // Sembunyikan semua layar
+      Object.keys(views).forEach(key => views[key].classList.add('hidden'));
+      // Tampilkan layar target
+      views[target].classList.remove('hidden');
 
+      // Mode Imersif: Sembunyikan Header & Bottom Nav jika masuk ke Ruang Baca
+      const mainHeader = document.getElementById('main-header');
+      const bottomNav = document.getElementById('bottom-nav');
+      if (target === 'daftar-isi' || target === 'materi') {
+        mainHeader.classList.add('hidden');
+        bottomNav.classList.add('hidden');
+      } else {
+        mainHeader.classList.remove('hidden');
+        bottomNav.classList.remove('hidden');
+        // Update warna bottom nav
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+          const isActive = btn.dataset.target === target;
+          btn.classList.toggle('text-brand-600', isActive);
+          btn.classList.toggle('text-gray-400', !isActive);
+        });
+      }
+
+      // Jalankan fungsi sesuai layar
       if (target === 'home') muatKatalog();
       if (target === 'belajar') muatPelatihanSaya();
     }
 
+    // ==========================================
+    // 4. LOGIKA LOGIN & SESI
+    // ==========================================
     async function prosesLogin() {
       const email = document.getElementById('email').value.trim();
       const pin = document.getElementById('pin').value.trim();
       const btn = document.getElementById('btn-login');
 
-      if (!email || !pin) {
-        alert("Mohon masukkan Email dan PIN Anda!");
-        return;
-      }
-
-      btn.innerText = "Memeriksa data...";
-      btn.disabled = true;
+      if (!email || !pin) return alert("Isi Email dan PIN!");
+      btn.innerText = "Memeriksa..."; btn.disabled = true;
 
       try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify({ action: "login", email: email, pin: pin })
-        });
+        const response = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "login", email: email, pin: pin }) });
         const hasil = await response.json();
-
         if (hasil.status === "success") {
           localStorage.setItem("algn_user", JSON.stringify(hasil.data));
           periksaSesi();
-        } else {
-          alert(hasil.message || "Email atau PIN tidak ditemukan.");
-        }
-      } catch (err) {
-        alert("Gagal terhubung ke database. Pastikan URL API benar dan izin akses di Apps Script disetel ke 'Anyone'.");
-      }
+        } else { alert(hasil.message); }
+      } catch (err) { alert("Gagal koneksi. Periksa URL API Anda."); }
 
-      btn.innerText = "Masuk ke Pelatihan";
-      btn.disabled = false;
+      btn.innerText = "Masuk ke Pelatihan"; btn.disabled = false;
     }
 
     function periksaSesi() {
       const userData = localStorage.getItem("algn_user");
       if (userData) {
         const user = JSON.parse(userData);
-        loginPage.classList.add('hidden');
-        appContainer.classList.remove('hidden');
-        document.getElementById('user-name-display').innerText = user.nama || "Member";
-        document.getElementById('user-email-display').innerText = user.email || "";
+        document.getElementById('login-page').classList.add('hidden');
+        document.getElementById('app-container').classList.remove('hidden');
+        document.getElementById('user-name-display').innerText = user.nama;
+        document.getElementById('user-email-display').innerText = user.email;
         switchView('home');
       } else {
-        loginPage.classList.remove('hidden');
-        appContainer.classList.add('hidden');
+        document.getElementById('login-page').classList.remove('hidden');
+        document.getElementById('app-container').classList.add('hidden');
       }
     }
 
-    function logout() {
-      localStorage.removeItem("algn_user");
-      document.getElementById('email').value = "";
-      document.getElementById('pin').value = "";
-      periksaSesi();
+    function logout() { localStorage.clear(); periksaSesi(); }
+
+    // ==========================================
+    // 5. FITUR RUANG BACA (DAFTAR ISI & MATERI)
+    // ==========================================
+    function muatPelatihanSaya() {
+      const container = document.getElementById('belajar-container');
+      const user = JSON.parse(localStorage.getItem("algn_user") || "{}");
+      
+      // Data Akses: Misalnya "PLT-001"
+      if (!user.akses) {
+        container.innerHTML = `<div class="text-center py-10"><i class="fas fa-lock text-3xl text-gray-300 mb-2"></i><p class="text-xs text-gray-500">Belum ada pelatihan aktif.</p></div>`;
+        return;
+      }
+
+      // Memecah kode pelatihan jika member beli lebih dari 1 (misal "PLT-001, PLT-002")
+      const listAkses = user.akses.split(',').map(item => item.trim());
+      container.innerHTML = "";
+
+      listAkses.forEach(idPelatihan => {
+        container.innerHTML += `
+          <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-bold text-brand-600 uppercase tracking-wider">Akses Terbuka</span>
+              <h4 class="font-bold text-gray-900 text-sm mt-0.5">ID: ${idPelatihan}</h4>
+            </div>
+            <button onclick="bukaModul('${idPelatihan}')" class="px-3.5 py-2 bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold rounded-xl transition shadow-md">
+              Buka Modul
+            </button>
+          </div>
+        `;
+      });
     }
 
-    async function muatKatalog() {
-      const container = document.getElementById('katalog-container');
-      container.innerHTML = "<p class='text-center text-gray-400 text-xs py-6'>Memperbarui data katalog...</p>";
+    // A. Memanggil Daftar Isi dari Spreadsheet
+    async function bukaModul(idPelatihan) {
+      const container = document.getElementById('daftar-isi-container');
+      container.innerHTML = "<div class="text-center text-xs text-gray-400 py-10">Memuat daftar materi...</div>";
+      switchView('daftar-isi'); // Pindah layar
 
       try {
         const response = await fetch(API_URL, {
           method: "POST",
-          body: JSON.stringify({ action: "get_katalog" })
+          body: JSON.stringify({ action: "get_materi", id_pelatihan: idPelatihan })
         });
         const res = await response.json();
 
         if (res.status === "success" && res.data.length > 0) {
+          daftarMateriAktif = res.data; // Simpan ke memory agar bisa digeser Next/Prev
           container.innerHTML = "";
-          res.data.forEach(item => {
-            const card = `
-              <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
-                <div class="h-36 bg-gray-100 w-full overflow-hidden">
-                  <img src="${item.Gambar_Cover || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500'}" class="w-full h-full object-cover">
+          
+          daftarMateriAktif.forEach((bab, index) => {
+            // Tentukan ikon berdasarkan tipe konten
+            let ikon = "fa-file-alt";
+            if (bab.Tipe_Konten.toLowerCase() === 'video') ikon = "fa-play-circle text-red-500";
+            if (bab.Tipe_Konten.toLowerCase() === 'vault') ikon = "fa-code text-green-500";
+
+            container.innerHTML += `
+              <div onclick="bukaBab(${index})" class="bg-white border border-gray-100 p-4 rounded-2xl shadow-sm flex items-center space-x-4 cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition">
+                <div class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400">
+                  <i class="fas ${ikon}"></i>
                 </div>
-                <div class="p-4">
-                  <h4 class="font-bold text-gray-900 text-sm leading-snug">${item.Judul_Pelatihan}</h4>
-                  <p class="text-xs text-gray-500 mt-1 line-clamp-2">${item.Deskripsi || ''}</p>
-                  <div class="mt-4 flex items-center justify-between pt-2 border-t border-gray-50">
-                    <span class="font-extrabold text-brand-600 text-sm">Rp ${item.Harga || '0'}</span>
-                    <button class="px-3.5 py-1.5 bg-brand-500 text-white rounded-lg text-xs font-bold shadow-sm shadow-yellow-100">Beli Akses</button>
-                  </div>
+                <div class="flex-1">
+                  <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Bab ${bab.Nomor_Bab}</span>
+                  <h4 class="font-bold text-gray-900 text-sm">${bab.Judul_Bab}</h4>
                 </div>
+                <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
               </div>
             `;
-            container.innerHTML += card;
           });
         } else {
-          container.innerHTML = "<p class='text-center text-gray-400 text-xs py-6'>Belum ada pelatihan aktif di sheet Katalog_Pelatihan.</p>";
+          container.innerHTML = "<div class='text-center text-xs text-gray-400 py-10'>Materi belum tersedia di database.</div>";
         }
       } catch (err) {
-        container.innerHTML = "<p class='text-center text-red-500 text-xs py-6'>Gagal memuat katalog. Periksa koneksi.</p>";
+        container.innerHTML = "<div class='text-center text-red-500 text-xs py-10'>Gagal memuat materi.</div>";
       }
     }
 
-    function muatPelatihanSaya() {
-      const container = document.getElementById('belajar-container');
-      const user = JSON.parse(localStorage.getItem("algn_user") || "{}");
-      const akses = user.akses || "";
-
-      if (!akses) {
-        container.innerHTML = `
-          <div class="text-center py-10">
-            <i class="fas fa-lock text-3xl text-gray-300 mb-2"></i>
-            <p class="text-xs text-gray-500">Anda belum memiliki akses pelatihan aktif.</p>
+    // B. Membuka dan Merender Isi Bab
+    function bukaBab(index) {
+      indeksBabAktif = index;
+      const bab = daftarMateriAktif[index];
+      
+      document.getElementById('label-bab').innerText = "Bab " + bab.Nomor_Bab;
+      document.getElementById('judul-bab-materi').innerText = bab.Judul_Bab;
+      
+      const kontenContainer = document.getElementById('materi-konten-container');
+      const tipe = bab.Tipe_Konten.toLowerCase();
+      
+      // Render berdasarkan tipe
+      if (tipe === 'video') {
+        // Embed YouTube (Asumsi Isi_Konten adalah link youtube embed)
+        kontenContainer.innerHTML = `
+          <div class="video-container shadow-md mb-4">
+            <iframe src="${bab.Isi_Konten}" frameborder="0" allowfullscreen></iframe>
           </div>
+          <p class="text-xs text-gray-400 text-center mt-4"><i class="fas fa-info-circle"></i> Video ini dienkripsi dan tidak dapat diunduh.</p>
         `;
-        return;
+      } else if (tipe === 'vault') {
+        // Mode Copy Paste Vault (Warna Hitam)
+        kontenContainer.innerHTML = `
+          <div class="bg-gray-900 rounded-xl p-5 relative shadow-lg">
+            <div class="flex items-center space-x-2 mb-3 border-b border-gray-700 pb-2">
+              <i class="fas fa-terminal text-green-400 text-sm"></i>
+              <span class="text-xs font-bold text-gray-300 uppercase tracking-wider">Copy-Paste Vault</span>
+            </div>
+            <div class="allow-select text-green-300 font-mono text-sm leading-relaxed pb-10 whitespace-pre-wrap">${bab.Isi_Konten}</div>
+            
+            <button onclick="salinTeksVault(this)" class="absolute bottom-4 right-4 bg-gray-700 hover:bg-gray-600 text-white text-xs px-4 py-2 rounded-lg font-bold shadow-md transition flex items-center space-x-1 border border-gray-600">
+              <i class="fas fa-copy"></i> <span>Salin Teks</span>
+            </button>
+          </div>
+          <p class="text-[10px] text-gray-400 mt-3 text-center">Klik tombol salin di atas untuk menyalin teks ke perangkat Anda.</p>
+        `;
+      } else {
+        // Mode Teks Biasa (HTML)
+        kontenContainer.innerHTML = `<div class="prose prose-sm">${bab.Isi_Konten}</div>`;
       }
 
-      container.innerHTML = `
-        <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <span class="text-[10px] font-bold text-brand-600 uppercase tracking-wider">Akses Terbuka</span>
-            <h4 class="font-bold text-gray-900 text-sm mt-0.5">Pelatihan: ${akses}</h4>
-            <p class="text-xs text-gray-400 mt-1">Siap dipelajari</p>
-          </div>
-          <button class="px-3.5 py-2 bg-gray-900 text-white text-xs font-bold rounded-xl">Buka Modul</button>
-        </div>
-      `;
+      // Atur tombol navigasi Prev/Next
+      document.getElementById('btn-prev-bab').disabled = (index === 0);
+      document.getElementById('btn-next-bab').disabled = (index === daftarMateriAktif.length - 1);
+
+      switchView('materi');
+      // Scroll ke paling atas konten
+      document.getElementById('materi-konten-container').scrollTop = 0;
     }
 
-    // Jalankan verifikasi saat pertama kali dibuka
+    // Navigasi Antar Bab (Tombol Bawah)
+    function navigasiBab(arah) {
+      if (arah === 'next' && indeksBabAktif < daftarMateriAktif.length - 1) bukaBab(indeksBabAktif + 1);
+      if (arah === 'prev' && indeksBabAktif > 0) bukaBab(indeksBabAktif - 1);
+    }
+
+    // Fungsi tombol Salin di Vault
+    function salinTeksVault(btn) {
+      const teks = btn.previousElementSibling.innerText;
+      navigator.clipboard.writeText(teks).then(() => {
+        const teksAsli = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> <span>Tersalin!</span>';
+        btn.classList.replace('bg-gray-700', 'bg-green-600');
+        btn.classList.replace('border-gray-600', 'border-green-500');
+        
+        setTimeout(() => {
+          btn.innerHTML = teksAsli;
+          btn.classList.replace('bg-green-600', 'bg-gray-700');
+          btn.classList.replace('border-green-500', 'border-gray-600');
+        }, 2000);
+      });
+    }
+
+    // Fungsi Muat Katalog (Home) - Dipertahankan dari versi sebelumnya
+    async function muatKatalog() {
+      const container = document.getElementById('katalog-container');
+      container.innerHTML = "<p class='text-center text-gray-400 text-xs py-6'>Memuat katalog...</p>";
+      try {
+        const response = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "get_katalog" }) });
+        const res = await response.json();
+        if (res.status === "success" && res.data.length > 0) {
+          container.innerHTML = "";
+          res.data.forEach(item => {
+            container.innerHTML += `
+              <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                <div class="h-36 bg-gray-100"><img src="${item.Gambar_Cover || 'https://via.placeholder.com/400x200?text=ALGOONIA'}" class="w-full h-full object-cover"></div>
+                <div class="p-4">
+                  <h4 class="font-bold text-gray-900 text-sm leading-snug">${item.Judul_Pelatihan}</h4>
+                  <div class="mt-4 flex justify-between items-center pt-2 border-t border-gray-50">
+                    <span class="font-extrabold text-brand-600 text-sm">Rp ${item.Harga}</span>
+                    <button class="px-3.5 py-1.5 bg-brand-500 text-white rounded-lg text-xs font-bold">Beli Akses</button>
+                  </div>
+                </div>
+              </div>`;
+          });
+        }
+      } catch (err) {}
+    }
+
     periksaSesi();
   </script>
 </body>
