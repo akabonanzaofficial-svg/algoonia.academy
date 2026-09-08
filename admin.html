@@ -20,7 +20,11 @@
     .toast.info { background: #3B82F6; }
     .menu-btn { transition: all 0.2s ease; }
     .modal-overlay { background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
-    .edit-mode { border-left: 4px solid #eab308; }
+    .editor-toolbar { display: flex; flex-wrap: wrap; gap: 4px; background: #f3f4f6; padding: 6px; border-radius: 10px; border: 1px solid #e5e7eb; }
+    .editor-toolbar button { width: 32px; height: 32px; border-radius: 6px; background: white; color: #4b5563; border: 1px solid #e5e7eb; font-size: 13px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+    .editor-toolbar button:hover { background: #eab308; color: white; border-color: #eab308; }
+    .editor-toolbar button.active { background: #eab308; color: white; border-color: #eab308; }
+    .editor-toolbar .separator { width: 1px; background: #d1d5db; margin: 0 2px; }
   </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 flex h-screen overflow-hidden">
@@ -100,7 +104,7 @@
           <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
               <thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider">
-                <tr><th class="py-4 px-6 font-bold">ID Modul / Bab</th><th class="py-4 px-6 font-bold">Pelatihan</th><th class="py-4 px-6 font-bold">Judul Bab</th><th class="py-4 px-6 font-bold">Tipe</th><th class="py-4 px-6 font-bold text-right">Aksi</th></tr>
+                <tr><th class="py-4 px-6 font-bold">ID Modul</th><th class="py-4 px-6 font-bold">Pelatihan</th><th class="py-4 px-6 font-bold">Judul Bab</th><th class="py-4 px-6 font-bold">Tipe</th><th class="py-4 px-6 font-bold text-right">Aksi</th></tr>
               </thead>
               <tbody id="table-materi-body">
                 <tr><td colspan="5" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat modul...</td></tr>
@@ -136,7 +140,7 @@
   </main>
 
   <!-- ========================================== -->
-  <!-- MODAL KATALOG (CREATE & EDIT) -->
+  <!-- MODAL KATALOG -->
   <!-- ========================================== -->
   <div id="modal-katalog" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4 modal-overlay" onclick="if(event.target===this) tutupModal('modal-katalog')">
     <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
@@ -162,9 +166,7 @@
       </div>
       <div class="p-5 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
         <button onclick="tutupModal('modal-katalog')" class="px-6 py-2.5 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">Batal</button>
-        <button id="btn-simpan-katalog" onclick="simpanKatalogData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md shadow-yellow-200 hover:bg-brand-600 transition flex items-center gap-2">
-          <i class="fas fa-save"></i> Simpan
-        </button>
+        <button id="btn-simpan-katalog" onclick="simpanKatalogData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md shadow-yellow-200 hover:bg-brand-600 transition flex items-center gap-2"><i class="fas fa-save"></i> Simpan</button>
       </div>
     </div>
   </div>
@@ -191,7 +193,7 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- MODAL MATERI (CREATE & EDIT) -->
+  <!-- MODAL MATERI (DENGAN EDITOR LENGKAP) -->
   <!-- ========================================== -->
   <div id="modal-materi" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4 modal-overlay" onclick="if(event.target===this) tutupModal('modal-materi')">
     <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
@@ -222,24 +224,35 @@
         <div>
           <div class="flex flex-wrap justify-between items-end gap-2 mb-1">
             <label class="block text-xs font-bold text-gray-600">ISI KONTEN *</label>
-            <div id="toolbar-teks" class="flex flex-wrap space-x-1 bg-gray-100 rounded-lg p-1">
-              <button onclick="masukkanFormat('<b>Teks Tebal</b>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-bold shadow-sm" title="Bold">B</button>
-              <button onclick="masukkanFormat('<i>Teks Miring</i>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 italic shadow-sm" title="Italic">I</button>
-              <button onclick="masukkanFormat('<u>Teks Bergaris</u>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 underline shadow-sm" title="Underline">U</button>
-              <div class="w-px bg-gray-300 mx-1"></div>
-              <button onclick="masukkanGambarURL()" class="w-8 h-8 rounded bg-white text-blue-500 shadow-sm hover:bg-blue-50 transition" title="Tambah Gambar"><i class="fas fa-image"></i></button>
-              <button onclick="masukkanFormat('<br>')" class="w-8 h-8 rounded bg-white text-gray-600 shadow-sm hover:bg-gray-50 transition" title="New Line"><i class="fas fa-arrow-down"></i></button>
-            </div>
           </div>
-          <textarea id="editor-textarea" rows="10" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Tulis konten materi di sini..."></textarea>
-          <p class="text-[10px] text-gray-400 mt-1">Untuk Video: Masukkan URL embed YouTube. Untuk Vault: Teks akan muncul di area copy-paste.</p>
+          <!-- TOOLBAR EDITOR LENGKAP -->
+          <div class="editor-toolbar" id="editor-toolbar">
+            <button onclick="editorAction('bold')" title="Tebal (Bold)"><b>B</b></button>
+            <button onclick="editorAction('italic')" title="Miring (Italic)"><i>I</i></button>
+            <button onclick="editorAction('underline')" title="Garis Bawah (Underline)"><u>U</u></button>
+            <button onclick="editorAction('strike')" title="Coret (Strike)"><s>S</s></button>
+            <div class="separator"></div>
+            <button onclick="editorAction('h1')" title="Heading 1"><span class="text-xs font-bold">H1</span></button>
+            <button onclick="editorAction('h2')" title="Heading 2"><span class="text-xs font-bold">H2</span></button>
+            <button onclick="editorAction('h3')" title="Heading 3"><span class="text-xs font-bold">H3</span></button>
+            <div class="separator"></div>
+            <button onclick="editorAction('ul')" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+            <button onclick="editorAction('ol')" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+            <div class="separator"></div>
+            <button onclick="editorAction('link')" title="Tambah Link"><i class="fas fa-link"></i></button>
+            <button onclick="editorAction('image')" title="Tambah Gambar"><i class="fas fa-image"></i></button>
+            <button onclick="editorAction('code')" title="Code Block"><i class="fas fa-code"></i></button>
+            <button onclick="editorAction('quote')" title="Blockquote"><i class="fas fa-quote-right"></i></button>
+            <div class="separator"></div>
+            <button onclick="editorAction('clear')" title="Hapus Format" class="text-red-500"><i class="fas fa-eraser"></i></button>
+          </div>
+          <textarea id="editor-textarea" rows="10" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-500 mt-2" placeholder="Tulis konten materi di sini..."></textarea>
+          <p class="text-[10px] text-gray-400 mt-1">Gunakan toolbar di atas untuk memformat teks. Untuk Video: Masukkan URL embed YouTube. Untuk Vault: Teks akan muncul di area copy-paste.</p>
         </div>
       </div>
       <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
         <button onclick="tutupModal('modal-materi')" class="px-6 py-2.5 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">Batal</button>
-        <button id="btn-simpan-materi" onclick="simpanMateriData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md hover:bg-brand-600 transition flex items-center gap-2">
-          <i class="fas fa-save"></i> Simpan Modul
-        </button>
+        <button id="btn-simpan-materi" onclick="simpanMateriData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md hover:bg-brand-600 transition flex items-center gap-2"><i class="fas fa-save"></i> Simpan Modul</button>
       </div>
     </div>
   </div>
@@ -308,9 +321,6 @@
       }
     }
 
-    // ==========================================
-    // FILTER MATERI BY PELATIHAN
-    // ==========================================
     function filterMateriByPelatihan() {
       const filter = document.getElementById('filter-pelatihan-materi').value;
       const rows = document.getElementById('table-materi-body').getElementsByTagName('tr');
@@ -321,28 +331,92 @@
     }
 
     // ==========================================
-    // EDITOR
+    // EDITOR TEKS - FUNGSI LENGKAP
     // ==========================================
+    function editorAction(action) {
+      const textarea = document.getElementById('editor-textarea');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(start, end);
+      let before = textarea.value.substring(0, start);
+      let after = textarea.value.substring(end);
+      
+      switch(action) {
+        case 'bold':
+          textarea.value = before + '<b>' + selectedText + '</b>' + after;
+          break;
+        case 'italic':
+          textarea.value = before + '<i>' + selectedText + '</i>' + after;
+          break;
+        case 'underline':
+          textarea.value = before + '<u>' + selectedText + '</u>' + after;
+          break;
+        case 'strike':
+          textarea.value = before + '<s>' + selectedText + '</s>' + after;
+          break;
+        case 'h1':
+          textarea.value = before + '<h1>' + selectedText + '</h1>' + after;
+          break;
+        case 'h2':
+          textarea.value = before + '<h2>' + selectedText + '</h2>' + after;
+          break;
+        case 'h3':
+          textarea.value = before + '<h3>' + selectedText + '</h3>' + after;
+          break;
+        case 'ul':
+          const ulText = selectedText.split('\n').map(line => '  <li>' + line + '</li>').join('\n');
+          textarea.value = before + '<ul>\n' + ulText + '\n</ul>' + after;
+          break;
+        case 'ol':
+          const olText = selectedText.split('\n').map((line, i) => '  <li>' + line + '</li>').join('\n');
+          textarea.value = before + '<ol>\n' + olText + '\n</ol>' + after;
+          break;
+        case 'link':
+          const linkUrl = prompt('Masukkan URL link:');
+          if (linkUrl) {
+            textarea.value = before + '<a href="' + linkUrl + '" target="_blank">' + (selectedText || 'Link') + '</a>' + after;
+          }
+          break;
+        case 'image':
+          const imgUrl = prompt('Masukkan URL gambar:');
+          if (imgUrl) {
+            textarea.value = before + '<img src="' + imgUrl + '" alt="Gambar" style="max-width:100%;border-radius:8px;margin:15px 0;">' + after;
+          }
+          break;
+        case 'code':
+          textarea.value = before + '<pre><code>' + selectedText + '</code></pre>' + after;
+          break;
+        case 'quote':
+          textarea.value = before + '<blockquote>' + selectedText + '</blockquote>' + after;
+          break;
+        case 'clear':
+          textarea.value = before + selectedText + after;
+          break;
+        default:
+          break;
+      }
+      
+      // Set cursor position
+      const newPos = start + (textarea.value.length - (before.length + after.length + (selectedText ? selectedText.length : 0)));
+      textarea.focus();
+      textarea.setSelectionRange(newPos, newPos);
+    }
+
     function ubahTipeEditor() {
       const tipe = document.getElementById('tipe-konten').value;
-      document.getElementById('toolbar-teks').style.display = tipe === 'Teks' ? 'flex' : 'none';
-    }
-    function masukkanFormat(tag) { 
-      const textarea = document.getElementById('editor-textarea'); 
-      const start = textarea.selectionStart, end = textarea.selectionEnd;
-      if (start !== end) {
-        const before = textarea.value.substring(0, start);
-        const selected = textarea.value.substring(start, end);
-        const after = textarea.value.substring(end);
-        textarea.value = before + tag.replace('Teks Tebal', selected).replace('Teks Miring', selected).replace('Teks Bergaris', selected) + after;
+      const toolbar = document.getElementById('editor-toolbar');
+      const textarea = document.getElementById('editor-textarea');
+      if (tipe === 'Teks') {
+        toolbar.style.display = 'flex';
+        textarea.placeholder = 'Tulis konten materi di sini...';
       } else {
-        textarea.value += tag + '\n';
+        toolbar.style.display = 'none';
+        if (tipe === 'Video') {
+          textarea.placeholder = 'Masukkan URL embed YouTube di sini...\nContoh: https://www.youtube.com/embed/VIDEO_ID';
+        } else if (tipe === 'Vault') {
+          textarea.placeholder = 'Masukkan teks yang akan muncul di Copy-Paste Vault...';
+        }
       }
-      textarea.focus();
-    }
-    function masukkanGambarURL() {
-      const url = prompt("Masukkan URL Gambar:");
-      if (url) document.getElementById('editor-textarea').value += `\n<img src="${url}" alt="Ilustrasi" style="max-width:100%;border-radius:8px;margin:15px 0;">\n`;
     }
 
     // ==========================================
@@ -390,7 +464,6 @@
       if (res?.status === "success" && res.data?.length > 0) {
         dataKatalog = res.data;
         document.getElementById('dash-count-kelas').innerText = dataKatalog.length;
-        // Update dropdown pelatihan di modal materi
         updatePelatihanDropdown();
         tbody.innerHTML = "";
         dataKatalog.forEach(item => {
@@ -421,7 +494,6 @@
         dataMateri = res.data;
         document.getElementById('dash-count-materi').innerText = dataMateri.length;
         tbody.innerHTML = "";
-        // Buat map pelatihan untuk lookup cepat
         const pelatihanMap = {};
         dataKatalog.forEach(p => { pelatihanMap[p.ID_Pelatihan] = p.Judul_Pelatihan; });
         
@@ -440,7 +512,6 @@
               </td>
             </tr>`;
         });
-        // Apply filter if any
         filterMateriByPelatihan();
       } else {
         document.getElementById('dash-count-materi').innerText = "0";
@@ -476,9 +547,6 @@
       }
     }
 
-    // ==========================================
-    // UPDATE DROPDOWN PELATIHAN
-    // ==========================================
     function updatePelatihanDropdown() {
       const select = document.getElementById('mat-id-pelatihan');
       const currentValue = select.value;
@@ -487,7 +555,6 @@
         const selected = item.ID_Pelatihan === currentValue ? 'selected' : '';
         select.innerHTML += `<option value="${item.ID_Pelatihan}" ${selected}>${item.ID_Pelatihan} - ${item.Judul_Pelatihan}</option>`;
       });
-      // Update filter dropdown juga
       const filterSelect = document.getElementById('filter-pelatihan-materi');
       const currentFilter = filterSelect.value;
       filterSelect.innerHTML = '<option value="">Semua Pelatihan</option>';
@@ -565,13 +632,18 @@
 
     async function hapusKatalog(id) {
       if (!confirm(`Yakin ingin menghapus pelatihan "${id}"? Semua modul terkait juga akan terhapus.`)) return;
+      
+      const btn = event.target;
+      if (btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; }
+      
       const res = await requestServer("delete_katalog", { id: id });
       if (res?.status === "success") {
         showToast('✅ Pelatihan berhasil dihapus!', 'success');
-        setTimeout(muatDataKatalog, 1500);
+        setTimeout(() => { muatDataKatalog(); muatDataMateri(); }, 1500);
       } else {
         showToast('Gagal menghapus data.', 'error');
       }
+      if (btn) { btn.innerHTML = '<i class="fas fa-trash"></i> Hapus'; btn.disabled = false; }
     }
 
     // ==========================================
@@ -640,6 +712,10 @@
 
     async function hapusMateri(id) {
       if (!confirm(`Yakin ingin menghapus modul ini?`)) return;
+      
+      const btn = event.target;
+      if (btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; }
+      
       const res = await requestServer("delete_materi", { id: id });
       if (res?.status === "success") {
         showToast('✅ Modul berhasil dihapus!', 'success');
@@ -647,6 +723,7 @@
       } else {
         showToast('Gagal menghapus data.', 'error');
       }
+      if (btn) { btn.innerHTML = '<i class="fas fa-trash"></i> Hapus'; btn.disabled = false; }
     }
 
     // ==========================================
@@ -693,7 +770,6 @@
     // ==========================================
     // START
     // ==========================================
-    // Reset modal saat tutup
     document.addEventListener('click', function(e) {
       if (e.target.closest('#modal-katalog') && e.target === e.target.closest('#modal-katalog')) {
         resetKatalogModal();
