@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - ALGOONIA ACADEMY</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { 50: '#fefce8', 100: '#fef9c3', 400: '#facc15', 500: '#eab308', 600: '#ca8a04', 900: '#713f12' } }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 flex h-screen overflow-hidden">
+
+  <!-- ========================================== -->
+  <!-- SIDEBAR (MENU KIRI) -->
+  <!-- ========================================== -->
+  <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+    <div class="h-16 flex items-center px-6 border-b border-gray-100">
+      <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white font-black text-sm mr-3">A</div>
+      <span class="font-extrabold tracking-tight text-gray-900">ALGOONIA <span class="text-brand-500">CMS</span></span>
+    </div>
+    
+    <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
+      <button onclick="switchMenu('dashboard')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-lg text-brand-600 bg-brand-50 menu-btn" data-target="dashboard">
+        <i class="fas fa-home w-6 text-center mr-2"></i> Dashboard
+      </button>
+      <button onclick="switchMenu('member')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-lg text-gray-500 hover:bg-gray-50 menu-btn" data-target="member">
+        <i class="fas fa-users w-6 text-center mr-2"></i> Data Member
+      </button>
+      <button onclick="switchMenu('katalog')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-lg text-gray-500 hover:bg-gray-50 menu-btn" data-target="katalog">
+        <i class="fas fa-store w-6 text-center mr-2"></i> Katalog Pelatihan
+      </button>
+      <button onclick="switchMenu('materi')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-lg text-gray-500 hover:bg-gray-50 menu-btn" data-target="materi">
+        <i class="fas fa-book-open w-6 text-center mr-2"></i> Modul & Materi
+      </button>
+    </nav>
+
+    <div class="p-4 border-t border-gray-100">
+      <button onclick="alert('Fitur Logout Admin')" class="w-full flex items-center px-3 py-2 text-sm font-bold rounded-lg text-red-500 hover:bg-red-50">
+        <i class="fas fa-sign-out-alt w-6 text-center mr-2"></i> Keluar
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- AREA KERJA UTAMA -->
+  <!-- ========================================== -->
+  <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+    <!-- Header Atas -->
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 z-10">
+      <h2 id="page-title" class="text-lg font-black text-gray-800">Dashboard</h2>
+      <div class="text-sm font-bold text-gray-500 flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-user-shield text-brand-500"></i></div>
+        <span>Administrator</span>
+      </div>
+    </header>
+
+    <!-- Konten Scroll -->
+    <div class="flex-1 overflow-y-auto p-8 bg-gray-50">
+      
+      <!-- VIEW: DASHBOARD -->
+      <section id="view-dashboard" class="view-section space-y-6">
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div class="text-gray-400 text-sm font-bold mb-2">Total Member</div>
+            <div class="text-3xl font-black text-gray-900">0 <span class="text-sm font-normal text-gray-400">Aktif</span></div>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div class="text-gray-400 text-sm font-bold mb-2">Total Pelatihan</div>
+            <div class="text-3xl font-black text-gray-900">0 <span class="text-sm font-normal text-gray-400">Katalog</span></div>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-br from-brand-400 to-brand-500 text-white border-none">
+            <div class="text-yellow-100 text-sm font-bold mb-2">Pintasan Cepat</div>
+            <button onclick="switchMenu('materi')" class="w-full bg-white text-brand-600 font-bold py-2 rounded-xl text-sm mt-1 shadow-sm">Tulis Materi Baru</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW: DATA MEMBER -->
+      <section id="view-member" class="view-section hidden space-y-4">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-gray-800">Daftar Member Aktif</h3>
+          <button onclick="bukaModal('modal-member')" class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md">+ Tambah Member</button>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-gray-50 border-b border-gray-100 text-gray-500">
+              <tr>
+                <th class="py-3 px-4">Nama Lengkap</th>
+                <th class="py-3 px-4">Email</th>
+                <th class="py-3 px-4">PIN Akses</th>
+                <th class="py-3 px-4">Hak Akses Pelatihan</th>
+                <th class="py-3 px-4 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="table-member-body">
+              <tr><td colspan="5" class="text-center py-6 text-gray-400">Gunakan tombol 'Tambah Member' untuk memulai</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW: MATERI & EDITOR -->
+      <section id="view-materi" class="view-section hidden space-y-4">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-gray-800">Manajemen Modul & Materi</h3>
+          <button onclick="bukaModal('modal-materi')" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md shadow-yellow-200">+ Tulis Materi Baru</button>
+        </div>
+        <div class="bg-white p-10 rounded-2xl shadow-sm border border-gray-100 text-center">
+          <i class="fas fa-folder-open text-4xl text-gray-300 mb-4"></i>
+          <p class="text-gray-500 font-medium">Klik tombol di atas untuk mulai membuat bab materi baru.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: TAMBAH MEMBER -->
+  <!-- ========================================== -->
+  <div id="modal-member" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+      <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+        <h3 class="font-bold text-gray-800">Tambah Member Baru</h3>
+        <button onclick="tutupModal('modal-member')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">NAMA LENGKAP</label>
+          <input type="text" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">EMAIL (USERNAME LOGIN)</label>
+          <input type="email" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">PIN AKSES</label>
+          <div class="flex space-x-2">
+            <input type="text" id="input-pin" class="flex-1 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <button onclick="generatePIN()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-bold"><i class="fas fa-random mr-1"></i> Acak</button>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">HAK AKSES PELATIHAN (Bisa lebih dari 1)</label>
+          <input type="text" placeholder="Contoh: PLT-001, PLT-002" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <p class="text-[10px] text-gray-400 mt-1">Pisahkan dengan koma jika membeli banyak kelas.</p>
+        </div>
+        <button onclick="alert('Data akan disimpan (Menunggu Update API)')" class="w-full py-3 bg-gray-900 text-white font-bold rounded-xl mt-4">Simpan Member</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: EDITOR MATERI (TEXT, VIDEO, VAULT) -->
+  <!-- ========================================== -->
+  <div id="modal-materi" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-6 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+        <h3 class="font-bold text-gray-800">Tulis Materi Bab</h3>
+        <button onclick="tutupModal('modal-materi')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+      </div>
+      
+      <div class="p-6 flex-1 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">ID PELATIHAN</label>
+            <input type="text" placeholder="Contoh: PLT-001" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">NOMOR BAB</label>
+            <input type="number" placeholder="Contoh: 1" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-600 mb-1">TIPE KONTEN</label>
+            <select id="tipe-konten" onchange="ubahTipeEditor()" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none font-bold">
+              <option value="Teks">Teks / Artikel HTML</option>
+              <option value="Video">Video (YouTube Embed)</option>
+              <option value="Vault">Copy-Paste Vault</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-600 mb-1">JUDUL BAB</label>
+          <input type="text" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none font-bold text-gray-800">
+        </div>
+
+        <!-- Area Input Spesifik Berdasarkan Tipe -->
+        <div>
+          <div class="flex justify-between items-end mb-1">
+            <label class="block text-xs font-bold text-gray-600">ISI KONTEN MATERI</label>
+            
+            <!-- Toolbar Editor (Hanya Muncul jika tipe TEKS) -->
+            <div id="toolbar-teks" class="flex space-x-2 bg-gray-100 rounded-lg p-1">
+              <button onclick="masukkanFormat('<b>Teks Tebal</b>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-serif font-bold shadow-sm" title="Bold">B</button>
+              <button onclick="masukkanFormat('<i>Teks Miring</i>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-serif italic shadow-sm" title="Italic">I</button>
+              <div class="w-px bg-gray-300 mx-1"></div>
+              <!-- Tombol Sisip Gambar URL -->
+              <button onclick="masukkanGambarURL()" class="w-8 h-8 rounded bg-white text-blue-500 hover:text-blue-600 shadow-sm" title="Sisipkan Gambar via URL">
+                <i class="fas fa-image"></i>
+              </button>
+            </div>
+          </div>
+          
+          <textarea id="editor-textarea" rows="12" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono" placeholder="Ketik materi HTML, URL Video, atau Teks Prompt di sini..."></textarea>
+          <p id="petunjuk-editor" class="text-[10px] text-gray-400 mt-1">Anda dapat menggunakan tag HTML dasar seperti &lt;p&gt;, &lt;br&gt;, &lt;ul&gt;, dan &lt;li&gt;.</p>
+        </div>
+      </div>
+      
+      <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
+        <button onclick="alert('Data akan disimpan ke Spreadsheet (Menunggu Update API)')" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md shadow-yellow-200">Simpan Materi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT LOGIKA UI ADMIN -->
+  <script>
+    // URL API yang sama dengan aplikasi member (Siap untuk digunakan nanti)
+    const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec";
+
+    function switchMenu(target) {
+      // Ubah warna menu sidebar
+      document.querySelectorAll('.menu-btn').forEach(btn => {
+        const isActive = btn.dataset.target === target;
+        btn.classList.toggle('text-brand-600', isActive);
+        btn.classList.toggle('bg-brand-50', isActive);
+        btn.classList.toggle('text-gray-500', !isActive);
+      });
+
+      // Sembunyikan semua konten, tampilkan yang dituju
+      document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById('view-' + target).classList.remove('hidden');
+
+      // Ganti Judul Header
+      const titles = { 'dashboard': 'Dashboard', 'member': 'Data Member', 'katalog': 'Katalog Pelatihan', 'materi': 'Modul & Materi' };
+      document.getElementById('page-title').innerText = titles[target];
+    }
+
+    function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function tutupModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // Fitur Generate PIN 6 Digit Acak
+    function generatePIN() {
+      const pin = Math.floor(100000 + Math.random() * 900000);
+      document.getElementById('input-pin').value = pin;
+    }
+
+    // Fitur Mengubah Tampilan Editor berdasarkan Tipe Konten
+    function ubahTipeEditor() {
+      const tipe = document.getElementById('tipe-konten').value;
+      const toolbar = document.getElementById('toolbar-teks');
+      const petunjuk = document.getElementById('petunjuk-editor');
+      const textarea = document.getElementById('editor-textarea');
+
+      if (tipe === 'Teks') {
+        toolbar.classList.remove('hidden');
+        petunjuk.innerText = "Anda dapat menggunakan tag HTML dasar. Gunakan tombol gambar untuk menyisipkan gambar via link.";
+        textarea.placeholder = "Ketik materi artikel di sini...";
+      } else if (tipe === 'Video') {
+        toolbar.classList.add('hidden');
+        petunjuk.innerText = "PENTING: Masukkan URL YouTube versi Embed (contoh: https://www.youtube.com/embed/xxxxxx).";
+        textarea.placeholder = "https://www.youtube.com/embed/...";
+      } else if (tipe === 'Vault') {
+        toolbar.classList.add('hidden');
+        petunjuk.innerText = "Ketik teks, prompt, atau template copywriting yang ingin bisa disalin (copy-paste) oleh member.";
+        textarea.placeholder = "Ketik prompt AI atau teks di sini...";
+      }
+    }
+
+    // Membantu admin menyisipkan Tag HTML
+    function masukkanFormat(tag) {
+      const textarea = document.getElementById('editor-textarea');
+      textarea.value += tag + "\n";
+      textarea.focus();
+    }
+
+    // Membantu admin menyisipkan URL Gambar dengan Rapi
+    function masukkanGambarURL() {
+      const url = prompt("Masukkan Link / URL Gambar Anda:\n(Contoh: https://link-gambar.com/foto.jpg)");
+      if (url && url.trim() !== "") {
+        const tagGambar = `\n<img src="${url}" alt="Ilustrasi Materi" style="max-width: 100%; border-radius: 8px; margin: 15px 0;">\n`;
+        const textarea = document.getElementById('editor-textarea');
+        textarea.value += tagGambar;
+        textarea.focus();
+      }
+    }
+  </script>
+</body>
+</html>
