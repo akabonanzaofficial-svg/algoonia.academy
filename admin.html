@@ -41,12 +41,6 @@
         <i class="fas fa-book-open w-6 text-center mr-2"></i> Modul & Materi
       </button>
     </nav>
-
-    <div class="p-4 border-t border-gray-100">
-      <button onclick="alert('Fitur Logout Admin')" class="w-full flex items-center px-3 py-2 text-sm font-bold rounded-lg text-red-500 hover:bg-red-50">
-        <i class="fas fa-sign-out-alt w-6 text-center mr-2"></i> Keluar
-      </button>
-    </div>
   </aside>
 
   <!-- ========================================== -->
@@ -69,16 +63,12 @@
       <section id="view-dashboard" class="view-section space-y-6">
         <div class="grid grid-cols-3 gap-6">
           <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div class="text-gray-400 text-sm font-bold mb-2">Total Member</div>
-            <div class="text-3xl font-black text-gray-900">0 <span class="text-sm font-normal text-gray-400">Aktif</span></div>
+            <div class="text-gray-400 text-sm font-bold mb-2">Pintasan Member</div>
+            <button onclick="switchMenu('member'); bukaModal('modal-member')" class="w-full bg-gray-900 text-white font-bold py-2 rounded-xl text-sm mt-1 shadow-sm">Tambah Member Baru</button>
           </div>
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <div class="text-gray-400 text-sm font-bold mb-2">Total Pelatihan</div>
-            <div class="text-3xl font-black text-gray-900">0 <span class="text-sm font-normal text-gray-400">Katalog</span></div>
-          </div>
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-br from-brand-400 to-brand-500 text-white border-none">
-            <div class="text-yellow-100 text-sm font-bold mb-2">Pintasan Cepat</div>
-            <button onclick="switchMenu('materi')" class="w-full bg-white text-brand-600 font-bold py-2 rounded-xl text-sm mt-1 shadow-sm">Tulis Materi Baru</button>
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 bg-gradient-to-br from-brand-400 to-brand-500 text-white border-none col-span-2">
+            <div class="text-yellow-100 text-sm font-bold mb-2">Pintasan Materi</div>
+            <button onclick="switchMenu('materi'); bukaModal('modal-materi')" class="w-full max-w-xs bg-white text-brand-600 font-bold py-2 rounded-xl text-sm mt-1 shadow-sm">Tulis Materi Baru</button>
           </div>
         </div>
       </section>
@@ -86,24 +76,12 @@
       <!-- VIEW: DATA MEMBER -->
       <section id="view-member" class="view-section hidden space-y-4">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="font-bold text-gray-800">Daftar Member Aktif</h3>
+          <h3 class="font-bold text-gray-800">Manajemen Member</h3>
           <button onclick="bukaModal('modal-member')" class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md">+ Tambah Member</button>
         </div>
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-gray-50 border-b border-gray-100 text-gray-500">
-              <tr>
-                <th class="py-3 px-4">Nama Lengkap</th>
-                <th class="py-3 px-4">Email</th>
-                <th class="py-3 px-4">PIN Akses</th>
-                <th class="py-3 px-4">Hak Akses Pelatihan</th>
-                <th class="py-3 px-4 text-center">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="table-member-body">
-              <tr><td colspan="5" class="text-center py-6 text-gray-400">Gunakan tombol 'Tambah Member' untuk memulai</td></tr>
-            </tbody>
-          </table>
+        <div class="bg-white p-10 rounded-2xl shadow-sm border border-gray-100 text-center">
+          <i class="fas fa-users text-4xl text-gray-300 mb-4"></i>
+          <p class="text-gray-500 font-medium">Klik tombol di atas untuk mendaftarkan member baru.</p>
         </div>
       </section>
 
@@ -119,6 +97,14 @@
         </div>
       </section>
 
+      <!-- VIEW: KATALOG -->
+      <section id="view-katalog" class="view-section hidden space-y-4">
+        <div class="bg-white p-10 rounded-2xl shadow-sm border border-gray-100 text-center">
+          <i class="fas fa-store text-4xl text-gray-300 mb-4"></i>
+          <p class="text-gray-500 font-medium">Manajemen Katalog sementara dapat diedit langsung melalui Google Sheets Anda.</p>
+        </div>
+      </section>
+
     </div>
   </main>
 
@@ -131,14 +117,14 @@
         <h3 class="font-bold text-gray-800">Tambah Member Baru</h3>
         <button onclick="tutupModal('modal-member')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
       </div>
-      <div class="p-6 space-y-4">
+      <div class="p-6 space-y-4" id="form-member">
         <div>
           <label class="block text-xs font-bold text-gray-600 mb-1">NAMA LENGKAP</label>
-          <input type="text" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <input type="text" id="member-nama" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
         <div>
           <label class="block text-xs font-bold text-gray-600 mb-1">EMAIL (USERNAME LOGIN)</label>
-          <input type="email" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <input type="email" id="member-email" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
         <div>
           <label class="block text-xs font-bold text-gray-600 mb-1">PIN AKSES</label>
@@ -148,11 +134,15 @@
           </div>
         </div>
         <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">HAK AKSES PELATIHAN (Bisa lebih dari 1)</label>
-          <input type="text" placeholder="Contoh: PLT-001, PLT-002" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <label class="block text-xs font-bold text-gray-600 mb-1">HAK AKSES PELATIHAN</label>
+          <input type="text" id="member-akses" placeholder="Contoh: PLT-001, PLT-002" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
           <p class="text-[10px] text-gray-400 mt-1">Pisahkan dengan koma jika membeli banyak kelas.</p>
         </div>
-        <button onclick="alert('Data akan disimpan (Menunggu Update API)')" class="w-full py-3 bg-gray-900 text-white font-bold rounded-xl mt-4">Simpan Member</button>
+        
+        <!-- TOMBOL SIMPAN MEMBER -->
+        <button id="btn-simpan-member" onclick="simpanMemberData()" class="w-full py-3 bg-gray-900 text-white font-bold rounded-xl mt-4 hover:bg-gray-800 transition">
+          Simpan Member
+        </button>
       </div>
     </div>
   </div>
@@ -167,15 +157,15 @@
         <button onclick="tutupModal('modal-materi')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
       </div>
       
-      <div class="p-6 flex-1 overflow-y-auto space-y-4">
+      <div class="p-6 flex-1 overflow-y-auto space-y-4" id="form-materi">
         <div class="grid grid-cols-3 gap-4">
           <div>
             <label class="block text-xs font-bold text-gray-600 mb-1">ID PELATIHAN</label>
-            <input type="text" placeholder="Contoh: PLT-001" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none">
+            <input type="text" id="mat-id-pelatihan" placeholder="Contoh: PLT-001" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none">
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-600 mb-1">NOMOR BAB</label>
-            <input type="number" placeholder="Contoh: 1" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none">
+            <input type="number" id="mat-nomor-bab" placeholder="Contoh: 1" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none">
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-600 mb-1">TIPE KONTEN</label>
@@ -189,20 +179,17 @@
 
         <div>
           <label class="block text-xs font-bold text-gray-600 mb-1">JUDUL BAB</label>
-          <input type="text" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none font-bold text-gray-800">
+          <input type="text" id="mat-judul-bab" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none font-bold text-gray-800">
         </div>
 
-        <!-- Area Input Spesifik Berdasarkan Tipe -->
         <div>
           <div class="flex justify-between items-end mb-1">
             <label class="block text-xs font-bold text-gray-600">ISI KONTEN MATERI</label>
             
-            <!-- Toolbar Editor (Hanya Muncul jika tipe TEKS) -->
             <div id="toolbar-teks" class="flex space-x-2 bg-gray-100 rounded-lg p-1">
               <button onclick="masukkanFormat('<b>Teks Tebal</b>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-serif font-bold shadow-sm" title="Bold">B</button>
               <button onclick="masukkanFormat('<i>Teks Miring</i>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-serif italic shadow-sm" title="Italic">I</button>
               <div class="w-px bg-gray-300 mx-1"></div>
-              <!-- Tombol Sisip Gambar URL -->
               <button onclick="masukkanGambarURL()" class="w-8 h-8 rounded bg-white text-blue-500 hover:text-blue-600 shadow-sm" title="Sisipkan Gambar via URL">
                 <i class="fas fa-image"></i>
               </button>
@@ -215,18 +202,21 @@
       </div>
       
       <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
-        <button onclick="alert('Data akan disimpan ke Spreadsheet (Menunggu Update API)')" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md shadow-yellow-200">Simpan Materi</button>
+        <!-- TOMBOL SIMPAN MATERI -->
+        <button id="btn-simpan-materi" onclick="simpanMateriData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md shadow-yellow-200 hover:bg-brand-600 transition">
+          Simpan Materi
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- SCRIPT LOGIKA UI ADMIN -->
+  <!-- ========================================== -->
+  <!-- SCRIPT LOGIKA UTAMA -->
+  <!-- ========================================== -->
   <script>
-    // URL API yang sama dengan aplikasi member (Siap untuk digunakan nanti)
     const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec";
 
     function switchMenu(target) {
-      // Ubah warna menu sidebar
       document.querySelectorAll('.menu-btn').forEach(btn => {
         const isActive = btn.dataset.target === target;
         btn.classList.toggle('text-brand-600', isActive);
@@ -234,25 +224,20 @@
         btn.classList.toggle('text-gray-500', !isActive);
       });
 
-      // Sembunyikan semua konten, tampilkan yang dituju
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.getElementById('view-' + target).classList.remove('hidden');
 
-      // Ganti Judul Header
-      const titles = { 'dashboard': 'Dashboard', 'member': 'Data Member', 'katalog': 'Katalog Pelatihan', 'materi': 'Modul & Materi' };
+      const titles = { 'dashboard': 'Dashboard', 'member': 'Manajemen Member', 'katalog': 'Katalog Pelatihan', 'materi': 'Modul & Materi' };
       document.getElementById('page-title').innerText = titles[target];
     }
 
     function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function tutupModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    // Fitur Generate PIN 6 Digit Acak
     function generatePIN() {
-      const pin = Math.floor(100000 + Math.random() * 900000);
-      document.getElementById('input-pin').value = pin;
+      document.getElementById('input-pin').value = Math.floor(100000 + Math.random() * 900000);
     }
 
-    // Fitur Mengubah Tampilan Editor berdasarkan Tipe Konten
     function ubahTipeEditor() {
       const tipe = document.getElementById('tipe-konten').value;
       const toolbar = document.getElementById('toolbar-teks');
@@ -274,22 +259,115 @@
       }
     }
 
-    // Membantu admin menyisipkan Tag HTML
     function masukkanFormat(tag) {
       const textarea = document.getElementById('editor-textarea');
       textarea.value += tag + "\n";
       textarea.focus();
     }
 
-    // Membantu admin menyisipkan URL Gambar dengan Rapi
     function masukkanGambarURL() {
       const url = prompt("Masukkan Link / URL Gambar Anda:\n(Contoh: https://link-gambar.com/foto.jpg)");
       if (url && url.trim() !== "") {
-        const tagGambar = `\n<img src="${url}" alt="Ilustrasi Materi" style="max-width: 100%; border-radius: 8px; margin: 15px 0;">\n`;
-        const textarea = document.getElementById('editor-textarea');
-        textarea.value += tagGambar;
-        textarea.focus();
+        document.getElementById('editor-textarea').value += `\n<img src="${url}" alt="Ilustrasi" style="max-width: 100%; border-radius: 8px; margin: 15px 0;">\n`;
       }
+    }
+
+    // ==========================================
+    // FUNGSI MENGIRIM DATA MEMBER BARU
+    // ==========================================
+    async function simpanMemberData() {
+      const nama = document.getElementById('member-nama').value.trim();
+      const email = document.getElementById('member-email').value.trim();
+      const pin = document.getElementById('input-pin').value.trim();
+      const akses = document.getElementById('member-akses').value.trim();
+
+      if(!nama || !email || !pin || !akses) return alert("Harap isi semua kolom pendaftaran!");
+
+      const btn = document.getElementById('btn-simpan-member');
+      btn.innerText = "Menyimpan ke Database..."; 
+      btn.disabled = true;
+
+      try {
+        const response = await fetch(API_URL, {
+          redirect: "follow",
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "add_member",
+            data: { nama: nama, email: email, pin: pin, akses: akses }
+          })
+        });
+        const res = await response.json();
+        
+        if(res.status === "success") {
+          alert("✅ Berhasil! Member telah ditambahkan ke Google Sheets.");
+          tutupModal('modal-member');
+          // Kosongkan form
+          document.getElementById('member-nama').value = "";
+          document.getElementById('member-email').value = "";
+          document.getElementById('input-pin').value = "";
+          document.getElementById('member-akses').value = "";
+        } else {
+          alert("❌ Gagal: " + res.message);
+        }
+      } catch(err) {
+        alert("Terjadi kesalahan jaringan saat menyimpan data.");
+      }
+      
+      btn.innerText = "Simpan Member"; 
+      btn.disabled = false;
+    }
+
+    // ==========================================
+    // FUNGSI MENGIRIM MATERI BARU
+    // ==========================================
+    async function simpanMateriData() {
+      const id_pelatihan = document.getElementById('mat-id-pelatihan').value.trim();
+      const nomor_bab = document.getElementById('mat-nomor-bab').value.trim();
+      const judul_bab = document.getElementById('mat-judul-bab').value.trim();
+      const tipe_konten = document.getElementById('tipe-konten').value;
+      const isi_konten = document.getElementById('editor-textarea').value.trim();
+
+      if(!id_pelatihan || !nomor_bab || !judul_bab || !isi_konten) return alert("Harap isi semua kolom materi!");
+
+      const btn = document.getElementById('btn-simpan-materi');
+      btn.innerText = "Menyimpan Materi..."; 
+      btn.disabled = true;
+
+      try {
+        const response = await fetch(API_URL, {
+          redirect: "follow",
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "add_materi",
+            data: { 
+              id_pelatihan: id_pelatihan, 
+              nomor_bab: nomor_bab, 
+              judul_bab: judul_bab, 
+              tipe_konten: tipe_konten, 
+              isi_konten: isi_konten 
+            }
+          })
+        });
+        const res = await response.json();
+        
+        if(res.status === "success") {
+          alert("✅ Berhasil! Materi Bab telah ditambahkan ke Google Sheets.");
+          tutupModal('modal-materi');
+          // Kosongkan judul dan isi untuk persiapan bab berikutnya
+          document.getElementById('mat-nomor-bab').value = parseInt(nomor_bab) + 1; // Otomatis lanjut ke bab berikutnya
+          document.getElementById('mat-judul-bab').value = "";
+          document.getElementById('editor-textarea').value = "";
+        } else {
+          alert("❌ Gagal: " + res.message);
+        }
+      } catch(err) {
+        alert("Terjadi kesalahan jaringan saat menyimpan materi.");
+      }
+      
+      btn.innerText = "Simpan Materi"; 
+      btn.disabled = false;
     }
   </script>
 </body>
