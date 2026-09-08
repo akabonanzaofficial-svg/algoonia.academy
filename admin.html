@@ -1,32 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Super Admin - ALGOONIA ACADEMY</title>
-  
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Konfigurasi Tema Warna -->
   <script>
     tailwind.config = {
       theme: { extend: { colors: { brand: { 50: '#fefce8', 100: '#fef9c3', 400: '#facc15', 500: '#eab308', 600: '#ca8a04', 900: '#713f12' } } } }
     }
   </script>
-  
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
   <style>
-    /* Toast Notification */
-    .toast {
-      position: fixed; bottom: 24px; right: 24px; padding: 16px 24px;
-      border-radius: 12px; color: white; font-weight: 600; font-size: 14px;
-      z-index: 9999; transform: translateY(100px); opacity: 0;
-      transition: all 0.4s ease; max-width: 400px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    }
+    .toast { position: fixed; bottom: 24px; right: 24px; padding: 16px 24px; border-radius: 12px; color: white; font-weight: 600; font-size: 14px; z-index: 9999; transform: translateY(100px); opacity: 0; transition: all 0.4s ease; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { background: #10B981; }
     .toast.error { background: #EF4444; }
@@ -37,15 +23,8 @@
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 flex h-screen overflow-hidden">
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="toast">
-    <i class="fas fa-check-circle mr-2"></i>
-    <span id="toast-message">Berhasil!</span>
-  </div>
+  <div id="toast" class="toast"><i class="fas fa-check-circle mr-2"></i><span id="toast-message">Berhasil!</span></div>
 
-  <!-- ========================================== -->
-  <!-- SIDEBAR (MENU KIRI) -->
-  <!-- ========================================== -->
   <aside class="w-64 bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm">
     <div class="h-16 flex items-center px-6 border-b border-gray-100">
       <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white font-black text-sm mr-3 shadow-md">A</div>
@@ -53,294 +32,71 @@
     </div>
     <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
       <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 px-2">Menu Utama</div>
-      <button onclick="switchMenu('dashboard')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-brand-600 bg-brand-50 menu-btn transition" data-target="dashboard">
-        <i class="fas fa-chart-pie w-6 text-center mr-2"></i> Analitik & Grafik
-      </button>
-      <button onclick="switchMenu('katalog')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:bg-gray-50 menu-btn transition" data-target="katalog">
-        <i class="fas fa-store w-6 text-center mr-2"></i> Kelas & Pelatihan
-      </button>
-      <button onclick="switchMenu('materi')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:bg-gray-50 menu-btn transition" data-target="materi">
-        <i class="fas fa-book-open w-6 text-center mr-2"></i> Modul Materi
-      </button>
-      <button onclick="switchMenu('member')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:bg-gray-50 menu-btn transition" data-target="member">
-        <i class="fas fa-users w-6 text-center mr-2"></i> Database Member
-      </button>
+      <button onclick="switchMenu('dashboard')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-brand-600 bg-brand-50 menu-btn transition" data-target="dashboard"><i class="fas fa-chart-pie w-6 text-center mr-2"></i> Dashboard</button>
+      <button onclick="switchMenu('katalog')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:bg-gray-50 menu-btn transition" data-target="katalog"><i class="fas fa-store w-6 text-center mr-2"></i> Katalog</button>
+      <button onclick="switchMenu('materi')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:bg-gray-50 menu-btn transition" data-target="materi"><i class="fas fa-book-open w-6 text-center mr-2"></i> Modul Materi</button>
+      <button onclick="switchMenu('member')" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:bg-gray-50 menu-btn transition" data-target="member"><i class="fas fa-users w-6 text-center mr-2"></i> Member</button>
     </nav>
   </aside>
 
-  <!-- ========================================== -->
-  <!-- AREA KERJA UTAMA -->
-  <!-- ========================================== -->
   <main class="flex-1 flex flex-col h-screen overflow-hidden relative bg-gray-50/50">
     <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 z-10 sticky top-0">
-      <h2 id="page-title" class="text-lg font-black text-gray-800 tracking-tight">Analitik & Grafik</h2>
+      <h2 id="page-title" class="text-lg font-black text-gray-800 tracking-tight">Dashboard</h2>
       <div class="flex items-center space-x-4">
-        <button onclick="refreshData()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-brand-50 hover:text-brand-600 transition">
-          <i class="fas fa-sync"></i>
-        </button>
+        <button onclick="refreshAllData()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fas fa-sync"></i></button>
         <div class="h-8 w-px bg-gray-200"></div>
-        <div class="text-sm font-bold text-gray-600 flex items-center space-x-2">
-          <div class="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center text-white"><i class="fas fa-user-shield text-xs"></i></div>
-          <span>Super Admin</span>
-        </div>
+        <div class="text-sm font-bold text-gray-600 flex items-center space-x-2"><div class="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center text-white"><i class="fas fa-user-shield text-xs"></i></div><span>Super Admin</span></div>
       </div>
     </header>
 
     <div class="flex-1 overflow-y-auto p-8">
-      
-      <!-- VIEW: DASHBOARD -->
+      <!-- DASHBOARD -->
       <section id="view-dashboard" class="view-section space-y-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="p-6 border-l-4 border-blue-500 bg-white shadow-sm rounded-r-xl">
-            <div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Member</div>
-            <div class="text-3xl font-black text-gray-900" id="dash-count-member">0</div>
-          </div>
-          <div class="p-6 border-l-4 border-yellow-500 bg-white shadow-sm rounded-r-xl">
-            <div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Kelas Aktif</div>
-            <div class="text-3xl font-black text-gray-900" id="dash-count-kelas">0</div>
-          </div>
-          <div class="p-6 border-l-4 border-green-500 bg-white shadow-sm rounded-r-xl">
-            <div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Modul Materi</div>
-            <div class="text-3xl font-black text-gray-900" id="dash-count-materi">0</div>
-          </div>
+          <div class="p-6 border-l-4 border-blue-500 bg-white shadow-sm rounded-r-xl"><div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Member</div><div class="text-3xl font-black text-gray-900" id="dash-count-member">0</div></div>
+          <div class="p-6 border-l-4 border-yellow-500 bg-white shadow-sm rounded-r-xl"><div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Kelas Aktif</div><div class="text-3xl font-black text-gray-900" id="dash-count-kelas">0</div></div>
+          <div class="p-6 border-l-4 border-green-500 bg-white shadow-sm rounded-r-xl"><div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Modul Materi</div><div class="text-3xl font-black text-gray-900" id="dash-count-materi">0</div></div>
         </div>
       </section>
 
-      <!-- VIEW: KATALOG -->
+      <!-- KATALOG -->
       <section id="view-katalog" class="view-section hidden space-y-6">
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="font-bold text-gray-800 text-lg">Manajemen Pelatihan (Katalog)</h3>
-            <p class="text-xs text-gray-400">Atur harga, gambar poster, dan detail pelatihan Anda di sini.</p>
-          </div>
-          <button onclick="bukaModal('modal-katalog')" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-yellow-200 transition">+ Buat Pelatihan Baru</button>
-        </div>
-        
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider">
-              <tr>
-                <th class="py-4 px-6 font-bold">Flyer & Info</th>
-                <th class="py-4 px-6 font-bold">Harga</th>
-                <th class="py-4 px-6 font-bold">Status</th>
-                <th class="py-4 px-6 font-bold text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="table-katalog-body">
-              <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="flex justify-between items-center"><div><h3 class="font-bold text-gray-800 text-lg">Manajemen Pelatihan</h3><p class="text-xs text-gray-400">Atur harga, gambar poster, dan detail pelatihan.</p></div><button onclick="bukaModal('modal-katalog')" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-yellow-200 transition">+ Buat Pelatihan</button></div>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider"><tr><th class="py-4 px-6 font-bold">Flyer & Info</th><th class="py-4 px-6 font-bold">Harga</th><th class="py-4 px-6 font-bold">Status</th><th class="py-4 px-6 font-bold text-right">Aksi</th></tr></thead><tbody id="table-katalog-body"><tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr></tbody></table></div>
       </section>
 
-      <!-- VIEW: MATERI -->
+      <!-- MATERI -->
       <section id="view-materi" class="view-section hidden space-y-6">
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="font-bold text-gray-800 text-lg">Manajemen Modul & Materi</h3>
-            <p class="text-xs text-gray-400">Daftar seluruh isi bab yang telah dimasukkan ke dalam kelas.</p>
-          </div>
-          <button onclick="bukaModal('modal-materi')" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-yellow-200 transition">+ Tulis Bab Baru</button>
-        </div>
-
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex space-x-4">
-          <div class="flex-1 relative">
-            <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
-            <input type="text" id="cari-materi" onkeyup="filterTabel('cari-materi', 'table-materi-body')" placeholder="Cari judul bab atau ID pelatihan..." class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider">
-              <tr>
-                <th class="py-4 px-6 font-bold">ID Materi / Bab</th>
-                <th class="py-4 px-6 font-bold">Judul Bab</th>
-                <th class="py-4 px-6 font-bold">Tipe Konten</th>
-                <th class="py-4 px-6 font-bold text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="table-materi-body">
-              <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat daftar materi...</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="flex justify-between items-center"><div><h3 class="font-bold text-gray-800 text-lg">Manajemen Modul & Materi</h3><p class="text-xs text-gray-400">Daftar seluruh isi bab yang telah dimasukkan ke dalam kelas.</p></div><button onclick="bukaModal('modal-materi')" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-yellow-200 transition">+ Tulis Bab</button></div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex space-x-4"><div class="flex-1 relative"><i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i><input type="text" id="cari-materi" onkeyup="filterTabel('cari-materi', 'table-materi-body')" placeholder="Cari..." class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div></div>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider"><tr><th class="py-4 px-6 font-bold">ID / Bab</th><th class="py-4 px-6 font-bold">Judul Bab</th><th class="py-4 px-6 font-bold">Tipe</th><th class="py-4 px-6 font-bold text-right">Aksi</th></tr></thead><tbody id="table-materi-body"><tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat materi...</td></tr></tbody></table></div>
       </section>
 
-      <!-- VIEW: MEMBER -->
+      <!-- MEMBER -->
       <section id="view-member" class="view-section hidden space-y-6">
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="font-bold text-gray-800 text-lg">Database Member</h3>
-            <p class="text-xs text-gray-400">Atur akses, nonaktifkan akun, atau ubah *password* member Anda.</p>
-          </div>
-          <button onclick="bukaModal('modal-member')" class="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition">+ Tambah Member</button>
-        </div>
-
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex space-x-4">
-          <div class="flex-1 relative">
-            <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
-            <input type="text" id="cari-member" onkeyup="filterTabel('cari-member', 'table-member-body')" placeholder="Cari nama atau email member..." class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-          </div>
-        </div>
-        
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider">
-              <tr>
-                <th class="py-4 px-6 font-bold">Member Info</th>
-                <th class="py-4 px-6 font-bold">Akses & PIN</th>
-                <th class="py-4 px-6 font-bold text-center">Status</th>
-                <th class="py-4 px-6 font-bold text-right">Aksi Lanjutan</th>
-              </tr>
-            </thead>
-            <tbody id="table-member-body">
-              <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="flex justify-between items-center"><div><h3 class="font-bold text-gray-800 text-lg">Database Member</h3><p class="text-xs text-gray-400">Atur akses, nonaktifkan, atau ubah PIN.</p></div><button onclick="bukaModal('modal-member')" class="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition">+ Tambah Member</button></div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex space-x-4"><div class="flex-1 relative"><i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i><input type="text" id="cari-member" onkeyup="filterTabel('cari-member', 'table-member-body')" placeholder="Cari..." class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div></div>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider"><tr><th class="py-4 px-6 font-bold">Info</th><th class="py-4 px-6 font-bold">Akses & PIN</th><th class="py-4 px-6 font-bold text-center">Status</th><th class="py-4 px-6 font-bold text-right">Aksi</th></tr></thead><tbody id="table-member-body"><tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...</td></tr></tbody></table></div>
       </section>
-
     </div>
   </main>
 
-  <!-- ========================================== -->
   <!-- MODALS -->
-  <!-- ========================================== -->
-  
-  <!-- MODAL KATALOG -->
-  <div id="modal-katalog" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-        <h3 class="font-bold text-gray-800">Buat Pelatihan Baru</h3>
-        <button onclick="tutupModal('modal-katalog')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="p-6 overflow-y-auto space-y-4">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-bold text-gray-600 mb-1">KODE PELATIHAN</label>
-            <input type="text" id="kat-id" placeholder="Ex: PLT-005" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-gray-600 mb-1">HARGA (Rp)</label>
-            <input type="number" id="kat-harga" placeholder="Ex: 150000" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">JUDUL PELATIHAN</label>
-          <input type="text" id="kat-judul" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">LINK GAMBAR FLYER (URL)</label>
-          <input type="text" id="kat-gambar" placeholder="https://link-gambar.com/flyer.jpg" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">DESKRIPSI SINGKAT</label>
-          <textarea id="kat-deskripsi" rows="3" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">STATUS PUBLIKASI</label>
-          <select id="kat-status" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-            <option value="Aktif">Aktif (Tampil di Aplikasi)</option>
-            <option value="Draft">Draft (Disembunyikan)</option>
-          </select>
-        </div>
-      </div>
-      <div class="p-5 border-t border-gray-100 bg-gray-50 flex justify-end">
-        <button onclick="simpanKatalogData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md shadow-yellow-200 hover:bg-brand-600">Simpan Pelatihan</button>
-      </div>
-    </div>
-  </div>
+  <div id="modal-katalog" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4"><div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"><div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50"><h3 class="font-bold text-gray-800">Buat Pelatihan</h3><button onclick="tutupModal('modal-katalog')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button></div><div class="p-6 overflow-y-auto space-y-4"><div class="grid grid-cols-2 gap-4"><div><label class="block text-xs font-bold text-gray-600 mb-1">KODE</label><input type="text" id="kat-id" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div><div><label class="block text-xs font-bold text-gray-600 mb-1">HARGA (Rp)</label><input type="number" id="kat-harga" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div></div><div><label class="block text-xs font-bold text-gray-600 mb-1">JUDUL</label><input type="text" id="kat-judul" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-500"></div><div><label class="block text-xs font-bold text-gray-600 mb-1">GAMBAR (URL)</label><input type="text" id="kat-gambar" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div><div><label class="block text-xs font-bold text-gray-600 mb-1">DESKRIPSI</label><textarea id="kat-deskripsi" rows="3" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea></div><div><label class="block text-xs font-bold text-gray-600 mb-1">STATUS</label><select id="kat-status" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"><option value="Aktif">Aktif</option><option value="Draft">Draft</option></select></div></div><div class="p-5 border-t border-gray-100 bg-gray-50 flex justify-end"><button onclick="simpanKatalogData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md shadow-yellow-200 hover:bg-brand-600">Simpan</button></div></div></div>
 
-  <!-- MODAL MEMBER -->
-  <div id="modal-member" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-       <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-        <h3 class="font-bold text-gray-800">Tambah Member Baru</h3>
-        <button onclick="tutupModal('modal-member')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="p-6 space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">NAMA LENGKAP</label>
-          <input type="text" id="member-nama" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">EMAIL (USERNAME LOGIN)</label>
-          <input type="email" id="member-email" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">PIN AKSES</label>
-          <div class="flex space-x-2">
-            <input type="text" id="input-pin" class="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-            <button onclick="document.getElementById('input-pin').value = Math.floor(100000 + Math.random() * 900000)" class="bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-bold"><i class="fas fa-random"></i></button>
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">HAK AKSES PELATIHAN</label>
-          <input type="text" id="member-akses" placeholder="Contoh: PLT-001, PLT-002" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <button id="btn-simpan-member" onclick="simpanMemberData()" class="w-full py-3 bg-gray-900 text-white font-bold rounded-xl mt-4 hover:bg-gray-800 transition shadow-md">Simpan Member</button>
-      </div>
-    </div>
-  </div>
+  <div id="modal-member" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4"><div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col"><div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50"><h3 class="font-bold text-gray-800">Tambah Member</h3><button onclick="tutupModal('modal-member')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button></div><div class="p-6 space-y-4"><div><label class="block text-xs font-bold text-gray-600 mb-1">NAMA</label><input type="text" id="member-nama" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div><div><label class="block text-xs font-bold text-gray-600 mb-1">EMAIL</label><input type="email" id="member-email" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div><div><label class="block text-xs font-bold text-gray-600 mb-1">PIN</label><div class="flex space-x-2"><input type="text" id="input-pin" class="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"><button onclick="document.getElementById('input-pin').value = Math.floor(100000 + Math.random() * 900000)" class="bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-bold"><i class="fas fa-random"></i></button></div></div><div><label class="block text-xs font-bold text-gray-600 mb-1">AKSES</label><input type="text" id="member-akses" placeholder="AI,Affiliate" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div><button id="btn-simpan-member" onclick="simpanMemberData()" class="w-full py-3 bg-gray-900 text-white font-bold rounded-xl mt-4 hover:bg-gray-800 transition shadow-md">Simpan Member</button></div></div></div>
 
-  <!-- MODAL MATERI -->
-  <div id="modal-materi" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-            <h3 class="font-bold text-gray-800">Tulis Materi Bab Baru</h3>
-            <button onclick="tutupModal('modal-materi')" class="text-gray-400"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="p-6 flex-1 overflow-y-auto space-y-4">
-            <div class="grid grid-cols-3 gap-4">
-              <div>
-                <label class="block text-xs font-bold text-gray-600 mb-1">ID PELATIHAN</label>
-                <input type="text" id="mat-id-pelatihan" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-600 mb-1">NOMOR BAB</label>
-                <input type="number" id="mat-nomor-bab" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-600 mb-1">TIPE KONTEN</label>
-                <select id="tipe-konten" onchange="ubahTipeEditor()" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold">
-                  <option value="Teks">Teks / Artikel HTML</option>
-                  <option value="Video">Video (YouTube Embed)</option>
-                  <option value="Vault">Copy-Paste Vault</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-gray-600 mb-1">JUDUL BAB</label>
-              <input type="text" id="mat-judul-bab" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold text-gray-800">
-            </div>
-            <div>
-              <div class="flex justify-between items-end mb-1">
-                <label class="block text-xs font-bold text-gray-600">ISI KONTEN MATERI</label>
-                <div id="toolbar-teks" class="flex space-x-2 bg-gray-100 rounded-lg p-1">
-                  <button onclick="masukkanFormat('<b>Teks Tebal</b>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-serif font-bold shadow-sm">B</button>
-                  <button onclick="masukkanFormat('<i>Teks Miring</i>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-serif italic shadow-sm">I</button>
-                  <div class="w-px bg-gray-300 mx-1"></div>
-                  <button onclick="masukkanGambarURL()" class="w-8 h-8 rounded bg-white text-blue-500 shadow-sm"><i class="fas fa-image"></i></button>
-                </div>
-              </div>
-              <textarea id="editor-textarea" rows="12" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-mono focus:outline-none" placeholder="Ketik materi..."></textarea>
-            </div>
-        </div>
-        <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
-            <button onclick="simpanMateriData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md hover:bg-brand-600 transition">Simpan Materi</button>
-        </div>
-    </div>
-  </div>
+  <div id="modal-materi" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"><div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50"><h3 class="font-bold text-gray-800">Tulis Materi</h3><button onclick="tutupModal('modal-materi')" class="text-gray-400"><i class="fas fa-times"></i></button></div><div class="p-6 flex-1 overflow-y-auto space-y-4"><div class="grid grid-cols-3 gap-4"><div><label class="block text-xs font-bold text-gray-600 mb-1">ID PELATIHAN</label><input type="text" id="mat-id-pelatihan" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm"></div><div><label class="block text-xs font-bold text-gray-600 mb-1">NOMOR BAB</label><input type="number" id="mat-nomor-bab" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm"></div><div><label class="block text-xs font-bold text-gray-600 mb-1">TIPE</label><select id="tipe-konten" onchange="ubahTipeEditor()" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold"><option value="Teks">Teks</option><option value="Video">Video</option><option value="Vault">Vault</option></select></div></div><div><label class="block text-xs font-bold text-gray-600 mb-1">JUDUL BAB</label><input type="text" id="mat-judul-bab" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold text-gray-800"></div><div><div class="flex justify-between items-end mb-1"><label class="block text-xs font-bold text-gray-600">ISI KONTEN</label><div id="toolbar-teks" class="flex space-x-2 bg-gray-100 rounded-lg p-1"><button onclick="masukkanFormat('<b>Teks Tebal</b>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-bold shadow-sm">B</button><button onclick="masukkanFormat('<i>Teks Miring</i>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 italic shadow-sm">I</button><div class="w-px bg-gray-300 mx-1"></div><button onclick="masukkanGambarURL()" class="w-8 h-8 rounded bg-white text-blue-500 shadow-sm"><i class="fas fa-image"></i></button></div></div><textarea id="editor-textarea" rows="12" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-mono focus:outline-none" placeholder="Ketik materi..."></textarea></div></div><div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end"><button onclick="simpanMateriData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md hover:bg-brand-600 transition">Simpan</button></div></div></div>
 
-  <!-- ========================================== -->
-  <!-- SCRIPT LOGIKA API & INTERAKSI (FINAL - PAKAI GET) -->
-  <!-- ========================================== -->
   <script>
-    // URL API GOOGLE APPS SCRIPT ANDA
+    // ==========================================
+    // KONFIGURASI API
+    // ==========================================
     const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec";
 
-    // --- 1. TOAST NOTIFICATION ---
+    // ==========================================
+    // FUNGSI UMUM
+    // ==========================================
     function showToast(message, type = 'success') {
       const toast = document.getElementById('toast');
       const msg = document.getElementById('toast-message');
@@ -351,7 +107,6 @@
       window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // --- 2. NAVIGASI & UI ---
     function switchMenu(target) {
       document.querySelectorAll('.menu-btn').forEach(btn => {
         const isActive = btn.dataset.target === target;
@@ -359,101 +114,61 @@
         btn.classList.toggle('bg-brand-50', isActive);
         btn.classList.toggle('text-gray-500', !isActive);
       });
-      
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.getElementById('view-' + target).classList.remove('hidden');
-
-      const titles = { 'dashboard': 'Analitik & Grafik', 'katalog': 'Katalog Pelatihan', 'materi': 'Modul Materi', 'member': 'Database Member' };
+      const titles = { 'dashboard': 'Dashboard', 'katalog': 'Katalog', 'materi': 'Modul Materi', 'member': 'Member' };
       document.getElementById('page-title').innerText = titles[target];
-
-      if (target === 'dashboard') {
-        muatDataMember();
-        muatDataKatalog();
-        muatDataMateri();
-      }
+      if (target === 'dashboard') { muatDataMember(); muatDataKatalog(); muatDataMateri(); }
       if (target === 'member') muatDataMember();
       if (target === 'materi') muatDataMateri();
       if (target === 'katalog') muatDataKatalog();
     }
 
-    function refreshData() {
+    function refreshAllData() {
       showToast('🔄 Memperbarui data...', 'info');
-      muatDataMember();
-      muatDataKatalog();
-      muatDataMateri();
+      muatDataMember(); muatDataKatalog(); muatDataMateri();
     }
 
     function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function tutupModal(id) { document.getElementById(id).classList.add('hidden'); }
-    
+
     function filterTabel(inputId, tbodyId) {
       const input = document.getElementById(inputId).value.toLowerCase();
       const rows = document.getElementById(tbodyId).getElementsByTagName('tr');
       for (let i = 0; i < rows.length; i++) {
-        const textData = rows[i].textContent || rows[i].innerText;
-        rows[i].style.display = textData.toLowerCase().indexOf(input) > -1 ? "" : "none";
+        rows[i].style.display = (rows[i].textContent || rows[i].innerText).toLowerCase().indexOf(input) > -1 ? "" : "none";
       }
     }
 
-    // --- 3. EDITOR BANTUAN ---
+    // ==========================================
+    // EDITOR
+    // ==========================================
     function ubahTipeEditor() {
       const tipe = document.getElementById('tipe-konten').value;
-      const toolbar = document.getElementById('toolbar-teks');
-      if (tipe === 'Teks') toolbar.classList.remove('hidden'); else toolbar.classList.add('hidden');
+      document.getElementById('toolbar-teks').style.display = tipe === 'Teks' ? 'flex' : 'none';
     }
-    
     function masukkanFormat(tag) { 
       const textarea = document.getElementById('editor-textarea'); 
       textarea.value += tag + "\n"; 
       textarea.focus(); 
     }
-    
     function masukkanGambarURL() {
-      const url = prompt("Masukkan Link / URL Gambar Anda:");
-      if (url) document.getElementById('editor-textarea').value += `\n<img src="${url}" alt="Ilustrasi" style="max-width: 100%; border-radius: 8px; margin: 15px 0;">\n`;
+      const url = prompt("Masukkan URL Gambar:");
+      if (url) document.getElementById('editor-textarea').value += `\n<img src="${url}" alt="Ilustrasi" style="max-width:100%;border-radius:8px;margin:15px 0;">\n`;
     }
 
     // ==========================================
-    // 4. FUNGSI REQUEST KE SERVER (PAKAI GET UNTUK BACA DATA)
+    // REQUEST KE SERVER (PAKAI METODE POST + NO-CORS)
     // ==========================================
     async function requestServer(action, payload = {}) {
       try {
-        // === UNTUK BACA DATA: PAKAI GET ===
-        const readActions = ['get_members', 'get_katalog', 'get_materi', 'get_all_materi'];
-        const isReadAction = readActions.includes(action);
-        
-        if (isReadAction) {
-          // Buat URL dengan parameter GET
-          let url = API_URL + '?action=' + encodeURIComponent(action);
-          if (payload.email) url += '&email=' + encodeURIComponent(payload.email);
-          if (payload.pin) url += '&pin=' + encodeURIComponent(payload.pin);
-          if (payload.id_pelatihan) url += '&id_pelatihan=' + encodeURIComponent(payload.id_pelatihan);
-          
-          const response = await fetch(url, {
-            method: "GET",
-            headers: { "Accept": "application/json" }
-          });
-          
-          if (!response.ok) {
-            throw new Error('HTTP error ' + response.status);
-          }
-          
-          return await response.json();
-        } else {
-          // === UNTUK TULIS DATA: PAKAI POST + no-cors ===
-          // (tidak bisa baca response, tapi data tetap terkirim)
-          await fetch(API_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8",
-            },
-            body: JSON.stringify({ action: action, ...payload })
-          });
-          
-          // Karena no-cors, kita anggap berhasil
-          return { status: "success", message: "Data berhasil dikirim" };
-        }
+        const response = await fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action: action, ...payload })
+        });
+        return { status: "success", message: "Request terkirim" };
       } catch (err) {
         console.error('❌ Request error:', err);
         showToast('Gagal terhubung ke server.', 'error');
@@ -461,50 +176,68 @@
       }
     }
 
-    // --- 5. FUNGSI MENAMPILKAN DATA (READ) ---
+    // ==========================================
+    // BACA DATA (PAKAI METODE GET)
+    // ==========================================
+    async function fetchData(action, params = {}) {
+      try {
+        let url = API_URL + '?action=' + encodeURIComponent(action);
+        if (params.email) url += '&email=' + encodeURIComponent(params.email);
+        if (params.pin) url += '&pin=' + encodeURIComponent(params.pin);
+        if (params.id_pelatihan) url += '&id_pelatihan=' + encodeURIComponent(params.id_pelatihan);
+
+        const response = await fetch(url, {
+          method: "GET",
+          headers: { "Accept": "application/json" }
+        });
+
+        if (!response.ok) throw new Error('HTTP error ' + response.status);
+        return await response.json();
+      } catch (err) {
+        console.error('❌ Fetch error:', err);
+        showToast('Gagal mengambil data.', 'error');
+        return null;
+      }
+    }
+
+    // ==========================================
+    // TAMPILKAN DATA
+    // ==========================================
     async function muatDataMember() {
       const tbody = document.getElementById('table-member-body');
-      if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...</td></tr>';
-      
-      const res = await requestServer("get_members");
-      
-      if (res && res.status === "success" && res.data && res.data.length > 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...</td></tr>';
+      const res = await fetchData("get_members");
+      if (res?.status === "success" && res.data?.length > 0) {
         document.getElementById('dash-count-member').innerText = res.data.length;
-        if(tbody) tbody.innerHTML = "";
-        
+        tbody.innerHTML = "";
         res.data.forEach(item => {
-          const status = item.Status || 'Aktif'; 
+          const status = item.Status || 'Aktif';
           const statusColor = status === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600';
-          if(tbody) tbody.innerHTML += `
+          tbody.innerHTML += `
             <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
               <td class="py-4 px-6"><div class="font-bold text-gray-800">${item.Nama_Lengkap || '-'}</div><div class="text-xs text-gray-400 mt-0.5">${item.Email || '-'}</div></td>
               <td class="py-4 px-6"><span class="bg-brand-50 text-brand-600 text-[10px] font-bold px-2 py-1 rounded">${item.Akses_Pelatihan || '-'}</span><div class="text-xs font-mono text-gray-500 mt-1"><i class="fas fa-key text-gray-300"></i> ${item.PIN || '---'}</div></td>
               <td class="py-4 px-6 text-center"><span class="px-3 py-1 rounded-full text-[10px] font-bold ${statusColor}">${status}</span></td>
-              <td class="py-4 px-6 text-right space-x-2">
-                <button onclick="aksiResetPin('${item.Email}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition" title="Ubah PIN"><i class="fas fa-key"></i></button>
-                <button onclick="aksiUbahStatus('${item.Email}', '${status}')" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-500 transition" title="Blokir/Aktifkan"><i class="fas fa-power-off"></i></button>
-              </td>
+              <td class="py-4 px-6 text-right space-x-2"><button onclick="aksiResetPin('${item.Email}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition"><i class="fas fa-key"></i></button><button onclick="aksiUbahStatus('${item.Email}', '${status}')" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-500 transition"><i class="fas fa-power-off"></i></button></td>
             </tr>`;
         });
       } else {
         document.getElementById('dash-count-member').innerText = "0";
-        if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada data member.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada data.</td></tr>';
       }
     }
 
     async function muatDataKatalog() {
       const tbody = document.getElementById('table-katalog-body');
-      if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>';
-      
-      const res = await requestServer("get_katalog");
-      if (res && res.status === "success" && res.data && res.data.length > 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>';
+      const res = await fetchData("get_katalog");
+      if (res?.status === "success" && res.data?.length > 0) {
         document.getElementById('dash-count-kelas').innerText = res.data.length;
-        if(tbody) tbody.innerHTML = "";
-        
+        tbody.innerHTML = "";
         res.data.forEach(item => {
           const statusColor = item.Status_Publish === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-600';
           const imageUrl = item.Gambar_Cover || 'https://via.placeholder.com/150x80?text=No+Image';
-          if(tbody) tbody.innerHTML += `
+          tbody.innerHTML += `
             <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
               <td class="py-4 px-6 flex items-center space-x-4"><img src="${imageUrl}" class="w-16 h-10 object-cover rounded shadow-sm bg-gray-200" onerror="this.src='https://via.placeholder.com/150x80?text=ALGOONIA'"><div><div class="font-bold text-gray-800 text-sm">${item.Judul_Pelatihan || '-'}</div><div class="text-[10px] text-gray-400">ID: ${item.ID_Pelatihan || '-'}</div></div></td>
               <td class="py-4 px-6 font-bold text-brand-600">Rp ${item.Harga || '0'}</td>
@@ -514,84 +247,68 @@
         });
       } else {
         document.getElementById('dash-count-kelas').innerText = "0";
-        if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Katalog masih kosong.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Katalog kosong.</td></tr>';
       }
     }
 
     async function muatDataMateri() {
       const tbody = document.getElementById('table-materi-body');
-      if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Mengambil materi...</td></tr>';
-      
-      const res = await requestServer("get_all_materi");
-      if (res && res.status === "success" && res.data && res.data.length > 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat materi...</td></tr>';
+      const res = await fetchData("get_all_materi");
+      if (res?.status === "success" && res.data?.length > 0) {
         document.getElementById('dash-count-materi').innerText = res.data.length;
-        if(tbody) tbody.innerHTML = "";
-        
+        tbody.innerHTML = "";
         res.data.forEach(item => {
           let ikon = item.Tipe_Konten === 'Video' ? 'text-red-500 fa-play-circle' : (item.Tipe_Konten === 'Vault' ? 'text-green-500 fa-code' : 'text-blue-500 fa-file-alt');
-          if(tbody) tbody.innerHTML += `
+          tbody.innerHTML += `
             <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-              <td class="py-4 px-6 font-mono text-xs text-gray-500">${item.ID_Materi || '-'} <br><span class="text-[10px] text-brand-600 font-bold">${item.ID_Pelatihan || '-'}</span></td>
+              <td class="py-4 px-6 font-mono text-xs text-gray-500">${item.ID_Materi || '-'}<br><span class="text-[10px] text-brand-600 font-bold">${item.ID_Pelatihan || '-'}</span></td>
               <td class="py-4 px-6 font-bold text-gray-800">${item.Nomor_Bab ? 'Bab ' + item.Nomor_Bab + ': ' : ''}${item.Judul_Bab || '-'}</td>
               <td class="py-4 px-6"><i class="fas ${ikon} mr-2"></i>${item.Tipe_Konten || 'Teks'}</td>
               <td class="py-4 px-6 text-right"><button class="text-gray-400 hover:text-gray-800 text-xs font-bold"><i class="fas fa-edit"></i> Edit</button></td>
             </tr>`;
         });
       } else {
-         document.getElementById('dash-count-materi').innerText = "0";
-         if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada materi yang dibuat.</td></tr>';
+        document.getElementById('dash-count-materi').innerText = "0";
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada materi.</td></tr>';
       }
     }
 
-    // --- 6. FUNGSI AKSI UBAH DATA (UPDATE) - PAKAI POST no-cors ---
+    // ==========================================
+    // AKSI (UPDATE & CREATE)
+    // ==========================================
     async function aksiResetPin(email) {
-      const pinBaru = prompt(`Masukkan PIN baru untuk akun ${email}:`, Math.floor(100000 + Math.random() * 900000));
-      if(pinBaru && pinBaru.length >= 4) {
-        const res = await requestServer("update_pin", { email: email, pin: pinBaru });
-        if(res && res.status === "success") { 
-          showToast('✅ PIN berhasil diperbarui!', 'success');
-          muatDataMember(); 
-        } else {
-          // Karena no-cors tidak bisa baca response, kita anggap berhasil jika tidak error
-          showToast('✅ Perintah PIN dikirim ke server.', 'info');
-          setTimeout(muatDataMember, 1500);
-        }
+      const pinBaru = prompt(`PIN baru untuk ${email}:`, Math.floor(100000 + Math.random() * 900000));
+      if (pinBaru && pinBaru.length >= 4) {
+        await requestServer("update_pin", { email, pin: pinBaru });
+        showToast('✅ Perintah reset PIN dikirim.', 'info');
+        setTimeout(muatDataMember, 1500);
       }
     }
 
     async function aksiUbahStatus(email, currentStatus) {
       const newStatus = currentStatus === 'Aktif' ? 'Nonaktif' : 'Aktif';
-      if(confirm(`Yakin ingin mengubah status akun ${email} menjadi ${newStatus}?`)) {
-        const res = await requestServer("update_status", { email: email, status: newStatus });
-        if(res && res.status === "success") { 
-          showToast(`✅ Status akun diubah menjadi ${newStatus}!`, 'success');
-          muatDataMember(); 
-        } else {
-          showToast(`✅ Perintah status dikirim ke server.`, 'info');
-          setTimeout(muatDataMember, 1500);
-        }
+      if (confirm(`Ubah status ${email} menjadi ${newStatus}?`)) {
+        await requestServer("update_status", { email, status: newStatus });
+        showToast(`✅ Perintah ubah status dikirim.`, 'info');
+        setTimeout(muatDataMember, 1500);
       }
     }
 
-    // --- 7. FUNGSI MENYIMPAN DATA BARU (CREATE) - PAKAI POST no-cors ---
     async function simpanMemberData() {
       const btn = document.getElementById('btn-simpan-member');
       const data = {
-        nama: document.getElementById('member-nama').value.trim(), 
+        nama: document.getElementById('member-nama').value.trim(),
         email: document.getElementById('member-email').value.trim(),
-        pin: document.getElementById('input-pin').value.trim(), 
+        pin: document.getElementById('input-pin').value.trim(),
         akses: document.getElementById('member-akses').value.trim()
       };
-      
-      if(!data.nama || !data.email || !data.pin) return showToast('Harap lengkapi semua data pendaftaran!', 'error');
-      if(data.pin.length < 4) return showToast('PIN minimal 4 digit!', 'error');
-      
+      if (!data.nama || !data.email || !data.pin) return showToast('Lengkapi data!', 'error');
+      if (data.pin.length < 4) return showToast('PIN minimal 4 digit!', 'error');
       btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...';
       btn.disabled = true;
-      
-      await requestServer("add_member", { data: data });
+      await requestServer("add_member", { data });
       showToast('✅ Perintah tambah member dikirim.', 'info');
-      
       btn.innerHTML = 'Simpan Member';
       btn.disabled = false;
       tutupModal('modal-member');
@@ -601,22 +318,18 @@
     async function simpanKatalogData() {
       const btn = document.getElementById('btn-simpan-katalog');
       const data = {
-        id: document.getElementById('kat-id').value.trim(), 
+        id: document.getElementById('kat-id').value.trim(),
         harga: document.getElementById('kat-harga').value.trim(),
-        judul: document.getElementById('kat-judul').value.trim(), 
+        judul: document.getElementById('kat-judul').value.trim(),
         gambar: document.getElementById('kat-gambar').value.trim(),
-        deskripsi: document.getElementById('kat-deskripsi').value.trim(), 
+        deskripsi: document.getElementById('kat-deskripsi').value.trim(),
         status: document.getElementById('kat-status').value
       };
-      
-      if(!data.id || !data.harga || !data.judul) return showToast('Harap isi Kode, Harga, dan Judul!', 'error');
-      
+      if (!data.id || !data.harga || !data.judul) return showToast('Isi Kode, Harga, dan Judul!', 'error');
       btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...';
       btn.disabled = true;
-      
-      await requestServer("add_katalog", { data: data });
+      await requestServer("add_katalog", { data });
       showToast('✅ Perintah tambah pelatihan dikirim.', 'info');
-      
       btn.innerHTML = 'Simpan Pelatihan';
       btn.disabled = false;
       tutupModal('modal-katalog');
@@ -626,30 +339,28 @@
     async function simpanMateriData() {
       const btn = document.getElementById('btn-simpan-materi');
       const data = {
-        id_pelatihan: document.getElementById('mat-id-pelatihan').value.trim(), 
+        id_pelatihan: document.getElementById('mat-id-pelatihan').value.trim(),
         nomor_bab: document.getElementById('mat-nomor-bab').value.trim(),
-        judul_bab: document.getElementById('mat-judul-bab').value.trim(), 
+        judul_bab: document.getElementById('mat-judul-bab').value.trim(),
         tipe_konten: document.getElementById('tipe-konten').value,
         isi_konten: document.getElementById('editor-textarea').value.trim()
       };
-      
-      if(!data.id_pelatihan || !data.judul_bab || !data.isi_konten) {
-        return showToast('Harap lengkapi ID, Judul Bab, dan Isi Materi!', 'error');
+      if (!data.id_pelatihan || !data.judul_bab || !data.isi_konten) {
+        return showToast('Lengkapi ID, Judul, dan Isi Materi!', 'error');
       }
-      
       btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...';
       btn.disabled = true;
-      
-      await requestServer("add_materi", { data: data });
+      await requestServer("add_materi", { data });
       showToast('✅ Perintah tambah materi dikirim.', 'info');
-      
       btn.innerHTML = 'Simpan Materi';
       btn.disabled = false;
       tutupModal('modal-materi');
       setTimeout(muatDataMateri, 1500);
     }
 
-    // --- INISIALISASI AWAL ---
+    // ==========================================
+    // START
+    // ==========================================
     switchMenu('dashboard');
   </script>
 </body>
