@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Super Admin - ALGOONIA ACADEMY</title>
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN (untuk development) -->
   <script src="https://cdn.tailwindcss.com"></script>
   
   <!-- Konfigurasi Tema Warna -->
@@ -29,16 +29,9 @@
     }
     
     /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
-      border-radius: 4px;
-    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
     
     /* Toast Notification */
     .toast {
@@ -57,14 +50,14 @@
       max-width: 400px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     }
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { background: #10B981; }
     .toast.error { background: #EF4444; }
     .toast.warning { background: #F59E0B; }
     .toast.info { background: #3B82F6; }
+    
+    /* Transition untuk sidebar */
+    .menu-btn { transition: all 0.2s ease; }
   </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 flex h-screen overflow-hidden">
@@ -100,7 +93,7 @@
         <i class="fas fa-users w-6 text-center mr-2"></i> Database Member
       </button>
       <div class="border-t border-gray-100 my-4"></div>
-      <a href="https://algoonia.vercel.app" target="_blank" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-50 transition">
+      <a href="https://algoonia-academy.vercel.app" target="_blank" class="w-full flex items-center px-3 py-2.5 text-sm font-bold rounded-xl text-gray-400 hover:bg-gray-50 transition">
         <i class="fas fa-external-link-alt w-6 text-center mr-2"></i> Lihat Aplikasi
       </a>
     </nav>
@@ -150,13 +143,13 @@
           <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
             <h4 class="font-bold text-gray-700 text-sm mb-3"><i class="fas fa-users text-brand-500 mr-2"></i> Member Terbaru</h4>
             <div id="dash-member-terbaru" class="space-y-2 text-sm text-gray-600">
-              <p class="text-xs text-gray-400">Belum ada data.</p>
+              <p class="text-xs text-gray-400">Memuat data...</p>
             </div>
           </div>
           <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h4 class="font-bold text-gray-700 text-sm mb-3"><i class="fas fa-book text-brand-500 mr-2"></i> Pelatihan Populer</h4>
+            <h4 class="font-bold text-gray-700 text-sm mb-3"><i class="fas fa-book text-brand-500 mr-2"></i> Pelatihan Aktif</h4>
             <div id="dash-pelatihan-populer" class="space-y-2 text-sm text-gray-600">
-              <p class="text-xs text-gray-400">Belum ada data.</p>
+              <p class="text-xs text-gray-400">Memuat data...</p>
             </div>
           </div>
         </div>
@@ -465,7 +458,8 @@
       });
       
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
-      document.getElementById('view-' + target).classList.remove('hidden');
+      const view = document.getElementById('view-' + target);
+      if (view) view.classList.remove('hidden');
 
       const titles = { 
         'dashboard': 'Dashboard', 
@@ -501,29 +495,6 @@
     function tutupModal(id) { 
       document.getElementById(id).classList.add('hidden');
       document.body.style.overflow = '';
-      resetForm(id);
-    }
-
-    function resetForm(modalId) {
-      if (modalId === 'modal-katalog') {
-        document.getElementById('kat-id').value = '';
-        document.getElementById('kat-harga').value = '';
-        document.getElementById('kat-judul').value = '';
-        document.getElementById('kat-gambar').value = '';
-        document.getElementById('kat-deskripsi').value = '';
-      }
-      if (modalId === 'modal-member') {
-        document.getElementById('member-nama').value = '';
-        document.getElementById('member-email').value = '';
-        document.getElementById('input-pin').value = '';
-        document.getElementById('member-akses').value = '';
-      }
-      if (modalId === 'modal-materi') {
-        document.getElementById('mat-id-pelatihan').value = '';
-        document.getElementById('mat-nomor-bab').value = '';
-        document.getElementById('mat-judul-bab').value = '';
-        document.getElementById('editor-textarea').value = '';
-      }
     }
 
     function generateRandomPin() {
@@ -572,12 +543,13 @@
       if (tipe === 'Teks') {
         toolbar.classList.remove('hidden');
         textarea.placeholder = 'Tulis konten materi di sini...';
-      } else if (tipe === 'Video') {
+      } else {
         toolbar.classList.add('hidden');
-        textarea.placeholder = 'Masukkan URL embed YouTube di sini...\nContoh: https://www.youtube.com/embed/VIDEO_ID';
-      } else if (tipe === 'Vault') {
-        toolbar.classList.add('hidden');
-        textarea.placeholder = 'Masukkan teks yang akan muncul di Copy-Paste Vault...';
+        if (tipe === 'Video') {
+          textarea.placeholder = 'Masukkan URL embed YouTube di sini...\nContoh: https://www.youtube.com/embed/VIDEO_ID';
+        } else if (tipe === 'Vault') {
+          textarea.placeholder = 'Masukkan teks yang akan muncul di Copy-Paste Vault...';
+        }
       }
     }
     
@@ -586,11 +558,11 @@
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
       const text = textarea.value;
-      const before = text.substring(0, start);
-      const selected = text.substring(start, end);
-      const after = text.substring(end);
       
-      if (selected) {
+      if (start !== end) {
+        const before = text.substring(0, start);
+        const selected = text.substring(start, end);
+        const after = text.substring(end);
         textarea.value = before + tag.replace('Teks Tebal', selected).replace('Teks Miring', selected).replace('Teks Bergaris', selected) + after;
       } else {
         textarea.value += tag + '\n';
@@ -608,31 +580,52 @@
     }
 
     // ==========================================
-    // 6. FUNGSI REQUEST KE SERVER
+    // 6. FUNGSI REQUEST KE SERVER (CORS FIX)
     // ==========================================
     async function requestServer(action, payload = {}) {
       try {
-        const response = await fetch(API_URL, {
-          redirect: "follow",
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json;charset=utf-8"
-          },
-          body: JSON.stringify({ action: action, ...payload })
-        });
+        // Untuk GET request (data sederhana)
+        const getActions = ['login', 'get_katalog', 'get_materi', 'get_members', 'get_all_materi'];
+        const isGetAction = getActions.includes(action);
+        
+        let url = API_URL + '?action=' + encodeURIComponent(action);
+        
+        // Tambahkan parameter untuk GET
+        if (payload.email) url += '&email=' + encodeURIComponent(payload.email);
+        if (payload.pin) url += '&pin=' + encodeURIComponent(payload.pin);
+        if (payload.id_pelatihan) url += '&id_pelatihan=' + encodeURIComponent(payload.id_pelatihan);
+        
+        let response;
+        
+        if (isGetAction) {
+          // === GET REQUEST ===
+          response = await fetch(url, {
+            method: "GET",
+            headers: { 
+              "Accept": "application/json"
+            }
+          });
+        } else {
+          // === POST REQUEST (untuk tambah/update) ===
+          response = await fetch(API_URL, {
+            method: "POST",
+            headers: { 
+              "Content-Type": "application/json;charset=utf-8",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({ action: action, ...payload })
+          });
+        }
         
         if (!response.ok) {
           throw new Error('HTTP error ' + response.status);
         }
         
         const result = await response.json();
-        if (result.status !== 'success') {
-          console.warn('Server response:', result);
-        }
         return result;
       } catch (err) {
         console.error('Request error:', err);
-        showToast('Gagal terhubung ke server: ' + err.message, 'error');
+        showToast('Gagal terhubung ke server. Periksa koneksi.', 'error');
         return null;
       }
     }
@@ -642,12 +635,11 @@
     // ==========================================
     async function muatDataMember() {
       const tbody = document.getElementById('table-member-body');
-      
       if (tbody) {
         tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data member...</td></tr>';
       }
       
-      const res = await requestServer("get_members", {});
+      const res = await requestServer("get_members");
       
       if (res && res.status === "success" && res.data) {
         dataMember = res.data;
@@ -655,7 +647,6 @@
         
         if (tbody) {
           tbody.innerHTML = "";
-          
           if (dataMember.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada member terdaftar.</td></tr>';
             return;
@@ -691,7 +682,6 @@
           });
         }
         
-        // Update dashboard - member terbaru
         updateDashboardMemberTerbaru(dataMember);
       } else {
         document.getElementById('dash-count-member').innerText = "0";
@@ -703,12 +693,11 @@
 
     async function muatDataKatalog() {
       const tbody = document.getElementById('table-katalog-body');
-      
       if (tbody) {
         tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>';
       }
       
-      const res = await requestServer("get_katalog", {});
+      const res = await requestServer("get_katalog");
       
       if (res && res.status === "success" && res.data) {
         dataKatalog = res.data;
@@ -716,7 +705,6 @@
         
         if (tbody) {
           tbody.innerHTML = "";
-          
           if (dataKatalog.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada pelatihan di katalog.</td></tr>';
             return;
@@ -750,6 +738,8 @@
             `;
           });
         }
+        
+        updateDashboardPelatihanAktif(dataKatalog);
       } else {
         document.getElementById('dash-count-kelas').innerText = "0";
         if (tbody) {
@@ -760,12 +750,11 @@
 
     async function muatDataMateri() {
       const tbody = document.getElementById('table-materi-body');
-      
       if (tbody) {
         tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat materi...</td></tr>';
       }
       
-      const res = await requestServer("get_all_materi", {});
+      const res = await requestServer("get_all_materi");
       
       if (res && res.status === "success" && res.data) {
         dataMateri = res.data;
@@ -773,7 +762,6 @@
         
         if (tbody) {
           tbody.innerHTML = "";
-          
           if (dataMateri.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada materi yang dibuat.</td></tr>';
             return;
@@ -827,12 +815,34 @@
         return;
       }
       
-      // Ambil 5 member terbaru (asumsi data terakhir di array)
       const terbaru = members.slice(-5).reverse();
       container.innerHTML = terbaru.map(m => `
-        <div class="flex items-center justify-between py-1 border-b border-gray-50">
+        <div class="flex items-center justify-between py-2 border-b border-gray-50">
           <span class="font-medium text-gray-700 text-sm">${m.Nama_Lengkap || 'Member'}</span>
           <span class="text-[10px] text-gray-400">${m.Email || ''}</span>
+        </div>
+      `).join('');
+    }
+
+    function updateDashboardPelatihanAktif(katalog) {
+      const container = document.getElementById('dash-pelatihan-populer');
+      if (!container) return;
+      
+      if (!katalog || katalog.length === 0) {
+        container.innerHTML = '<p class="text-xs text-gray-400">Belum ada pelatihan aktif.</p>';
+        return;
+      }
+      
+      const aktif = katalog.filter(item => item.Status_Publish === 'Aktif');
+      if (aktif.length === 0) {
+        container.innerHTML = '<p class="text-xs text-gray-400">Belum ada pelatihan aktif.</p>';
+        return;
+      }
+      
+      container.innerHTML = aktif.slice(0, 5).map(item => `
+        <div class="flex items-center justify-between py-2 border-b border-gray-50">
+          <span class="font-medium text-gray-700 text-sm">${item.Judul_Pelatihan || 'Tanpa Judul'}</span>
+          <span class="text-[10px] text-brand-600 font-bold">Rp ${item.Harga || '0'}</span>
         </div>
       `).join('');
     }
