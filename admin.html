@@ -5,49 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Super Admin - ALGOONIA ACADEMY</title>
   
-  <!-- Tailwind CSS CDN (untuk development) -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Konfigurasi Tema Warna -->
   <script>
     tailwind.config = {
       theme: { extend: { colors: { brand: { 50: '#fefce8', 100: '#fef9c3', 400: '#facc15', 500: '#eab308', 600: '#ca8a04', 900: '#713f12' } } } }
     }
   </script>
   
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    /* Animasi loading */
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    .loading-pulse {
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-    
-    /* Scrollbar */
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .loading-pulse { animation: pulse 1.5s ease-in-out infinite; }
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
     
-    /* Toast Notification */
     .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      padding: 16px 24px;
-      border-radius: 12px;
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-      z-index: 9999;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.4s ease;
-      max-width: 400px;
+      position: fixed; bottom: 24px; right: 24px; padding: 16px 24px;
+      border-radius: 12px; color: white; font-weight: 600; font-size: 14px;
+      z-index: 9999; transform: translateY(100px); opacity: 0;
+      transition: all 0.4s ease; max-width: 400px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     }
     .toast.show { transform: translateY(0); opacity: 1; }
@@ -55,24 +35,18 @@
     .toast.error { background: #EF4444; }
     .toast.warning { background: #F59E0B; }
     .toast.info { background: #3B82F6; }
-    
-    /* Transition untuk sidebar */
     .menu-btn { transition: all 0.2s ease; }
   </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 flex h-screen overflow-hidden">
 
-  <!-- ========================================== -->
-  <!-- TOAST NOTIFICATION -->
-  <!-- ========================================== -->
+  <!-- TOAST -->
   <div id="toast" class="toast">
     <i class="fas fa-check-circle mr-2"></i>
     <span id="toast-message">Berhasil!</span>
   </div>
 
-  <!-- ========================================== -->
-  <!-- SIDEBAR (MENU KIRI) -->
-  <!-- ========================================== -->
+  <!-- SIDEBAR -->
   <aside class="w-64 bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm">
     <div class="h-16 flex items-center px-6 border-b border-gray-100">
       <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white font-black text-sm mr-3 shadow-md">A</div>
@@ -97,14 +71,10 @@
         <i class="fas fa-external-link-alt w-6 text-center mr-2"></i> Lihat Aplikasi
       </a>
     </nav>
-    <div class="p-4 border-t border-gray-100 text-[10px] text-gray-400 text-center">
-      v2.0 • © 2026 ALGOONIA
-    </div>
+    <div class="p-4 border-t border-gray-100 text-[10px] text-gray-400 text-center">v2.0 • © 2026 ALGOONIA</div>
   </aside>
 
-  <!-- ========================================== -->
-  <!-- AREA KERJA UTAMA -->
-  <!-- ========================================== -->
+  <!-- MAIN CONTENT -->
   <main class="flex-1 flex flex-col h-screen overflow-hidden relative bg-gray-50/50">
     <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 z-10 sticky top-0">
       <h2 id="page-title" class="text-lg font-black text-gray-800 tracking-tight">Dashboard</h2>
@@ -155,7 +125,7 @@
         </div>
       </section>
 
-      <!-- VIEW: KATALOG PELATIHAN -->
+      <!-- VIEW: KATALOG -->
       <section id="view-katalog" class="view-section hidden space-y-6">
         <div class="flex flex-wrap justify-between items-center gap-4">
           <div>
@@ -171,12 +141,7 @@
           <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
               <thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider">
-                <tr>
-                  <th class="py-4 px-6 font-bold">Flyer & Info</th>
-                  <th class="py-4 px-6 font-bold">Harga</th>
-                  <th class="py-4 px-6 font-bold">Status</th>
-                  <th class="py-4 px-6 font-bold text-right">Aksi</th>
-                </tr>
+                <tr><th class="py-4 px-6 font-bold">Flyer & Info</th><th class="py-4 px-6 font-bold">Harga</th><th class="py-4 px-6 font-bold">Status</th><th class="py-4 px-6 font-bold text-right">Aksi</th></tr>
               </thead>
               <tbody id="table-katalog-body">
                 <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>
@@ -215,12 +180,7 @@
           <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
               <thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider">
-                <tr>
-                  <th class="py-4 px-6 font-bold">ID Materi / Bab</th>
-                  <th class="py-4 px-6 font-bold">Judul Bab</th>
-                  <th class="py-4 px-6 font-bold">Tipe Konten</th>
-                  <th class="py-4 px-6 font-bold text-right">Aksi</th>
-                </tr>
+                <tr><th class="py-4 px-6 font-bold">ID Materi / Bab</th><th class="py-4 px-6 font-bold">Judul Bab</th><th class="py-4 px-6 font-bold">Tipe Konten</th><th class="py-4 px-6 font-bold text-right">Aksi</th></tr>
               </thead>
               <tbody id="table-materi-body">
                 <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat daftar materi...</td></tr>
@@ -258,12 +218,7 @@
           <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
               <thead class="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider">
-                <tr>
-                  <th class="py-4 px-6 font-bold">Member Info</th>
-                  <th class="py-4 px-6 font-bold">Akses & PIN</th>
-                  <th class="py-4 px-6 font-bold text-center">Status</th>
-                  <th class="py-4 px-6 font-bold text-right">Aksi</th>
-                </tr>
+                <tr><th class="py-4 px-6 font-bold">Member Info</th><th class="py-4 px-6 font-bold">Akses & PIN</th><th class="py-4 px-6 font-bold text-center">Status</th><th class="py-4 px-6 font-bold text-right">Aksi</th></tr>
               </thead>
               <tbody id="table-member-body">
                 <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data...</td></tr>
@@ -277,8 +232,10 @@
   </main>
 
   <!-- ========================================== -->
-  <!-- MODAL: TAMBAH PELATIHAN -->
+  <!-- MODALS -->
   <!-- ========================================== -->
+  
+  <!-- MODAL KATALOG -->
   <div id="modal-katalog" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4" onclick="if(event.target===this) tutupModal('modal-katalog')">
     <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
@@ -287,29 +244,13 @@
       </div>
       <div class="p-6 overflow-y-auto space-y-4">
         <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-bold text-gray-600 mb-1">KODE PELATIHAN *</label>
-            <input type="text" id="kat-id" placeholder="Ex: AI" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-gray-600 mb-1">HARGA (Rp) *</label>
-            <input type="number" id="kat-harga" placeholder="Ex: 199000" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-          </div>
+          <div><label class="block text-xs font-bold text-gray-600 mb-1">KODE PELATIHAN *</label><input type="text" id="kat-id" placeholder="Ex: AI" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
+          <div><label class="block text-xs font-bold text-gray-600 mb-1">HARGA (Rp) *</label><input type="number" id="kat-harga" placeholder="Ex: 199000" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">JUDUL PELATIHAN *</label>
-          <input type="text" id="kat-judul" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">LINK GAMBAR FLYER (URL)</label>
-          <input type="text" id="kat-gambar" placeholder="https://link-gambar.com/flyer.jpg" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">DESKRIPSI SINGKAT</label>
-          <textarea id="kat-deskripsi" rows="3" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">STATUS PUBLIKASI</label>
+        <div><label class="block text-xs font-bold text-gray-600 mb-1">JUDUL PELATIHAN *</label><input type="text" id="kat-judul" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
+        <div><label class="block text-xs font-bold text-gray-600 mb-1">LINK GAMBAR FLYER (URL)</label><input type="text" id="kat-gambar" placeholder="https://link-gambar.com/flyer.jpg" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
+        <div><label class="block text-xs font-bold text-gray-600 mb-1">DESKRIPSI SINGKAT</label><textarea id="kat-deskripsi" rows="3" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea></div>
+        <div><label class="block text-xs font-bold text-gray-600 mb-1">STATUS PUBLIKASI</label>
           <select id="kat-status" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
             <option value="Aktif">Aktif (Tampil di Aplikasi)</option>
             <option value="Draft">Draft (Disembunyikan)</option>
@@ -323,9 +264,7 @@
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- MODAL: TAMBAH MEMBER -->
-  <!-- ========================================== -->
+  <!-- MODAL MEMBER -->
   <div id="modal-member" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4" onclick="if(event.target===this) tutupModal('modal-member')">
     <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col">
        <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
@@ -333,25 +272,15 @@
         <button onclick="tutupModal('modal-member')" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
       </div>
       <div class="p-6 space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">NAMA LENGKAP *</label>
-          <input type="text" id="member-nama" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">EMAIL (Username Login) *</label>
-          <input type="email" id="member-email" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">PIN AKSES *</label>
+        <div><label class="block text-xs font-bold text-gray-600 mb-1">NAMA LENGKAP *</label><input type="text" id="member-nama" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
+        <div><label class="block text-xs font-bold text-gray-600 mb-1">EMAIL (Username Login) *</label><input type="email" id="member-email" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
+        <div><label class="block text-xs font-bold text-gray-600 mb-1">PIN AKSES *</label>
           <div class="flex space-x-2">
             <input type="text" id="input-pin" class="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="6 digit PIN">
-            <button onclick="generateRandomPin()" class="bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-gray-300 transition" title="Generate Random PIN">
-              <i class="fas fa-random"></i>
-            </button>
+            <button onclick="generateRandomPin()" class="bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-gray-300 transition"><i class="fas fa-random"></i></button>
           </div>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-gray-600 mb-1">HAK AKSES PELATIHAN</label>
+        <div><label class="block text-xs font-bold text-gray-600 mb-1">HAK AKSES PELATIHAN</label>
           <input type="text" id="member-akses" placeholder="Contoh: AI,Affiliate" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
           <p class="text-[10px] text-gray-400 mt-1">Pisahkan dengan koma jika lebih dari satu.</p>
         </div>
@@ -360,9 +289,7 @@
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- MODAL: EDITOR MATERI -->
-  <!-- ========================================== -->
+  <!-- MODAL MATERI -->
   <div id="modal-materi" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm" onclick="if(event.target===this) tutupModal('modal-materi')">
     <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
@@ -371,16 +298,9 @@
         </div>
         <div class="p-6 flex-1 overflow-y-auto space-y-4">
             <div class="grid grid-cols-3 gap-4">
-              <div>
-                <label class="block text-xs font-bold text-gray-600 mb-1">ID PELATIHAN *</label>
-                <input type="text" id="mat-id-pelatihan" placeholder="Ex: AI" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-600 mb-1">NOMOR BAB *</label>
-                <input type="number" id="mat-nomor-bab" placeholder="1" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-600 mb-1">TIPE KONTEN</label>
+              <div><label class="block text-xs font-bold text-gray-600 mb-1">ID PELATIHAN *</label><input type="text" id="mat-id-pelatihan" placeholder="Ex: AI" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
+              <div><label class="block text-xs font-bold text-gray-600 mb-1">NOMOR BAB *</label><input type="number" id="mat-nomor-bab" placeholder="1" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
+              <div><label class="block text-xs font-bold text-gray-600 mb-1">TIPE KONTEN</label>
                 <select id="tipe-konten" onchange="ubahTipeEditor()" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
                   <option value="Teks">Teks / Artikel HTML</option>
                   <option value="Video">Video (YouTube Embed)</option>
@@ -388,10 +308,7 @@
                 </select>
               </div>
             </div>
-            <div>
-              <label class="block text-xs font-bold text-gray-600 mb-1">JUDUL BAB *</label>
-              <input type="text" id="mat-judul-bab" placeholder="Masukkan judul bab..." class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
-            </div>
+            <div><label class="block text-xs font-bold text-gray-600 mb-1">JUDUL BAB *</label><input type="text" id="mat-judul-bab" placeholder="Masukkan judul bab..." class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-500"></div>
             <div>
               <div class="flex flex-wrap justify-between items-end gap-2 mb-1">
                 <label class="block text-xs font-bold text-gray-600">ISI KONTEN MATERI *</label>
@@ -416,13 +333,16 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- SCRIPT LOGIKA API & INTERAKSI -->
+  <!-- SCRIPT UTAMA -->
   <!-- ========================================== -->
   <script>
     // ==========================================
-    // 1. KONFIGURASI API
+    // 1. KONFIGURASI API - PAKAI CORS PROXY
     // ==========================================
-    const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec";
+    const ORIGINAL_API = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec";
+    
+    // PAKAI PROXY UNTUK BYPASS CORS
+    const API_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(ORIGINAL_API);
 
     let dataMember = [];
     let dataKatalog = [];
@@ -435,14 +355,10 @@
       const toast = document.getElementById('toast');
       const msg = document.getElementById('toast-message');
       msg.textContent = message;
-      
       toast.className = 'toast ' + type;
       setTimeout(() => toast.classList.add('show'), 10);
-      
       clearTimeout(window.toastTimeout);
-      window.toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+      window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
     // ==========================================
@@ -461,20 +377,10 @@
       const view = document.getElementById('view-' + target);
       if (view) view.classList.remove('hidden');
 
-      const titles = { 
-        'dashboard': 'Dashboard', 
-        'katalog': 'Katalog Pelatihan', 
-        'materi': 'Modul Materi', 
-        'member': 'Database Member' 
-      };
+      const titles = { 'dashboard': 'Dashboard', 'katalog': 'Katalog Pelatihan', 'materi': 'Modul Materi', 'member': 'Database Member' };
       document.getElementById('page-title').innerText = titles[target] || 'Dashboard';
 
-      // Load data sesuai tab
-      if (target === 'dashboard') {
-        muatDataMember();
-        muatDataKatalog();
-        muatDataMateri();
-      }
+      if (target === 'dashboard') { muatDataMember(); muatDataKatalog(); muatDataMateri(); }
       if (target === 'member') muatDataMember();
       if (target === 'materi') muatDataMateri();
       if (target === 'katalog') muatDataKatalog();
@@ -487,19 +393,10 @@
       muatDataMateri();
     }
 
-    function bukaModal(id) { 
-      document.getElementById(id).classList.remove('hidden'); 
-      document.body.style.overflow = 'hidden';
-    }
-    
-    function tutupModal(id) { 
-      document.getElementById(id).classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-
+    function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    function tutupModal(id) { document.getElementById(id).classList.add('hidden'); document.body.style.overflow = ''; }
     function generateRandomPin() {
-      const pin = Math.floor(100000 + Math.random() * 900000);
-      document.getElementById('input-pin').value = pin;
+      document.getElementById('input-pin').value = Math.floor(100000 + Math.random() * 900000);
     }
 
     // ==========================================
@@ -509,26 +406,21 @@
       const input = document.getElementById(inputId).value.toLowerCase();
       const rows = document.getElementById(tbodyId).getElementsByTagName('tr');
       for (let i = 0; i < rows.length; i++) {
-        const textData = rows[i].textContent || rows[i].innerText;
-        rows[i].style.display = textData.toLowerCase().indexOf(input) > -1 ? '' : 'none';
+        rows[i].style.display = (rows[i].textContent || rows[i].innerText).toLowerCase().indexOf(input) > -1 ? '' : 'none';
       }
     }
-
     function filterTabelTipe() {
       const filter = document.getElementById('filter-tipe-materi').value.toLowerCase();
       const rows = document.getElementById('table-materi-body').getElementsByTagName('tr');
       for (let i = 0; i < rows.length; i++) {
-        const text = rows[i].textContent || rows[i].innerText;
-        rows[i].style.display = filter === '' || text.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
+        rows[i].style.display = filter === '' || (rows[i].textContent || rows[i].innerText).toLowerCase().indexOf(filter) > -1 ? '' : 'none';
       }
     }
-
     function filterTabelStatus() {
       const filter = document.getElementById('filter-status-member').value.toLowerCase();
       const rows = document.getElementById('table-member-body').getElementsByTagName('tr');
       for (let i = 0; i < rows.length; i++) {
-        const text = rows[i].textContent || rows[i].innerText;
-        rows[i].style.display = filter === '' || text.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
+        rows[i].style.display = filter === '' || (rows[i].textContent || rows[i].innerText).toLowerCase().indexOf(filter) > -1 ? '' : 'none';
       }
     }
 
@@ -539,37 +431,27 @@
       const tipe = document.getElementById('tipe-konten').value;
       const toolbar = document.getElementById('toolbar-teks');
       const textarea = document.getElementById('editor-textarea');
-      
       if (tipe === 'Teks') {
         toolbar.classList.remove('hidden');
         textarea.placeholder = 'Tulis konten materi di sini...';
       } else {
         toolbar.classList.add('hidden');
-        if (tipe === 'Video') {
-          textarea.placeholder = 'Masukkan URL embed YouTube di sini...\nContoh: https://www.youtube.com/embed/VIDEO_ID';
-        } else if (tipe === 'Vault') {
-          textarea.placeholder = 'Masukkan teks yang akan muncul di Copy-Paste Vault...';
-        }
+        textarea.placeholder = tipe === 'Video' ? 'Masukkan URL embed YouTube di sini...' : 'Masukkan teks untuk Copy-Paste Vault...';
       }
     }
-    
-    function masukkanFormat(tag) { 
-      const textarea = document.getElementById('editor-textarea'); 
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const text = textarea.value;
-      
+    function masukkanFormat(tag) {
+      const textarea = document.getElementById('editor-textarea');
+      const start = textarea.selectionStart, end = textarea.selectionEnd;
       if (start !== end) {
-        const before = text.substring(0, start);
-        const selected = text.substring(start, end);
-        const after = text.substring(end);
+        const before = textarea.value.substring(0, start);
+        const selected = textarea.value.substring(start, end);
+        const after = textarea.value.substring(end);
         textarea.value = before + tag.replace('Teks Tebal', selected).replace('Teks Miring', selected).replace('Teks Bergaris', selected) + after;
       } else {
         textarea.value += tag + '\n';
       }
       textarea.focus();
     }
-    
     function masukkanGambarURL() {
       const url = prompt("Masukkan Link / URL Gambar Anda:");
       if (url) {
@@ -580,42 +462,25 @@
     }
 
     // ==========================================
-    // 6. FUNGSI REQUEST KE SERVER (CORS FIX)
+    // 6. FUNGSI REQUEST KE SERVER (PAKAI PROXY)
     // ==========================================
     async function requestServer(action, payload = {}) {
       try {
-        // Untuk GET request (data sederhana)
-        const getActions = ['login', 'get_katalog', 'get_materi', 'get_members', 'get_all_materi'];
-        const isGetAction = getActions.includes(action);
+        // Buat parameter URL
+        let params = new URLSearchParams();
+        params.append('action', action);
+        if (payload.email) params.append('email', payload.email);
+        if (payload.pin) params.append('pin', payload.pin);
+        if (payload.id_pelatihan) params.append('id_pelatihan', payload.id_pelatihan);
         
-        let url = API_URL + '?action=' + encodeURIComponent(action);
+        let url = API_URL + '&' + params.toString();
         
-        // Tambahkan parameter untuk GET
-        if (payload.email) url += '&email=' + encodeURIComponent(payload.email);
-        if (payload.pin) url += '&pin=' + encodeURIComponent(payload.pin);
-        if (payload.id_pelatihan) url += '&id_pelatihan=' + encodeURIComponent(payload.id_pelatihan);
-        
-        let response;
-        
-        if (isGetAction) {
-          // === GET REQUEST ===
-          response = await fetch(url, {
-            method: "GET",
-            headers: { 
-              "Accept": "application/json"
-            }
-          });
-        } else {
-          // === POST REQUEST (untuk tambah/update) ===
-          response = await fetch(API_URL, {
-            method: "POST",
-            headers: { 
-              "Content-Type": "application/json;charset=utf-8",
-              "Accept": "application/json"
-            },
-            body: JSON.stringify({ action: action, ...payload })
-          });
-        }
+        // Untuk POST actions (tambah/update data) kita tetap pakai GET via proxy
+        // karena proxy allorigins.win hanya support GET
+        const response = await fetch(url, {
+          method: "GET",
+          headers: { "Accept": "application/json" }
+        });
         
         if (!response.ok) {
           throw new Error('HTTP error ' + response.status);
@@ -635,171 +500,110 @@
     // ==========================================
     async function muatDataMember() {
       const tbody = document.getElementById('table-member-body');
-      if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data member...</td></tr>';
-      }
+      if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat data member...</td></tr>';
       
       const res = await requestServer("get_members");
       
       if (res && res.status === "success" && res.data) {
         dataMember = res.data;
         document.getElementById('dash-count-member').innerText = dataMember.length;
-        
         if (tbody) {
           tbody.innerHTML = "";
           if (dataMember.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada member terdaftar.</td></tr>';
             return;
           }
-          
           dataMember.forEach(item => {
             const status = item.Status || 'Aktif';
             const statusColor = status === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600';
-            
             tbody.innerHTML += `
               <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                <td class="py-4 px-6">
-                  <div class="font-bold text-gray-800">${item.Nama_Lengkap || '-'}</div>
-                  <div class="text-xs text-gray-400 mt-0.5">${item.Email || '-'}</div>
-                </td>
-                <td class="py-4 px-6">
-                  <span class="bg-brand-50 text-brand-600 text-[10px] font-bold px-2 py-1 rounded">${item.Akses_Pelatihan || 'Tidak ada akses'}</span>
-                  <div class="text-xs font-mono text-gray-500 mt-1"><i class="fas fa-key text-gray-300"></i> ${item.PIN || '---'}</div>
-                </td>
-                <td class="py-4 px-6 text-center">
-                  <span class="px-3 py-1 rounded-full text-[10px] font-bold ${statusColor}">${status}</span>
-                </td>
+                <td class="py-4 px-6"><div class="font-bold text-gray-800">${item.Nama_Lengkap || '-'}</div><div class="text-xs text-gray-400 mt-0.5">${item.Email || '-'}</div></td>
+                <td class="py-4 px-6"><span class="bg-brand-50 text-brand-600 text-[10px] font-bold px-2 py-1 rounded">${item.Akses_Pelatihan || 'Tidak ada akses'}</span><div class="text-xs font-mono text-gray-500 mt-1"><i class="fas fa-key text-gray-300"></i> ${item.PIN || '---'}</div></td>
+                <td class="py-4 px-6 text-center"><span class="px-3 py-1 rounded-full text-[10px] font-bold ${statusColor}">${status}</span></td>
                 <td class="py-4 px-6 text-right space-x-2 whitespace-nowrap">
-                  <button onclick="aksiResetPin('${item.Email}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition" title="Ubah PIN">
-                    <i class="fas fa-key"></i>
-                  </button>
-                  <button onclick="aksiUbahStatus('${item.Email}', '${status}')" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-500 transition" title="Blokir/Aktifkan">
-                    <i class="fas fa-power-off"></i>
-                  </button>
+                  <button onclick="aksiResetPin('${item.Email}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition" title="Ubah PIN"><i class="fas fa-key"></i></button>
+                  <button onclick="aksiUbahStatus('${item.Email}', '${status}')" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-500 transition" title="Blokir/Aktifkan"><i class="fas fa-power-off"></i></button>
                 </td>
               </tr>
             `;
           });
         }
-        
         updateDashboardMemberTerbaru(dataMember);
       } else {
         document.getElementById('dash-count-member').innerText = "0";
-        if (tbody) {
-          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Gagal memuat data member.</td></tr>';
-        }
+        if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Gagal memuat data member.</td></tr>';
       }
     }
 
     async function muatDataKatalog() {
       const tbody = document.getElementById('table-katalog-body');
-      if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>';
-      }
+      if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>';
       
       const res = await requestServer("get_katalog");
       
       if (res && res.status === "success" && res.data) {
         dataKatalog = res.data;
         document.getElementById('dash-count-kelas').innerText = dataKatalog.length;
-        
         if (tbody) {
           tbody.innerHTML = "";
           if (dataKatalog.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada pelatihan di katalog.</td></tr>';
             return;
           }
-          
           dataKatalog.forEach(item => {
             const statusColor = item.Status_Publish === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-600';
             const imageUrl = item.Gambar_Cover || 'https://via.placeholder.com/150x80?text=No+Image';
-            
             tbody.innerHTML += `
               <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                <td class="py-4 px-6">
-                  <div class="flex items-center space-x-4">
-                    <img src="${imageUrl}" class="w-16 h-10 object-cover rounded shadow-sm bg-gray-200" onerror="this.src='https://via.placeholder.com/150x80?text=ALGOONIA'">
-                    <div>
-                      <div class="font-bold text-gray-800 text-sm">${item.Judul_Pelatihan || 'Tanpa Judul'}</div>
-                      <div class="text-[10px] text-gray-400">ID: ${item.ID_Pelatihan || '-'}</div>
-                    </div>
-                  </div>
-                </td>
+                <td class="py-4 px-6"><div class="flex items-center space-x-4"><img src="${imageUrl}" class="w-16 h-10 object-cover rounded shadow-sm bg-gray-200" onerror="this.src='https://via.placeholder.com/150x80?text=ALGOONIA'"><div><div class="font-bold text-gray-800 text-sm">${item.Judul_Pelatihan || 'Tanpa Judul'}</div><div class="text-[10px] text-gray-400">ID: ${item.ID_Pelatihan || '-'}</div></div></div></td>
                 <td class="py-4 px-6 font-bold text-brand-600">Rp ${item.Harga || '0'}</td>
-                <td class="py-4 px-6">
-                  <span class="px-2 py-1 rounded-md text-[10px] font-bold ${statusColor}">${item.Status_Publish || 'Draft'}</span>
-                </td>
-                <td class="py-4 px-6 text-right">
-                  <button class="text-gray-400 hover:text-gray-800 text-xs font-bold" onclick="showToast('Fitur edit dalam pengembangan', 'info')">
-                    <i class="fas fa-edit"></i> Edit
-                  </button>
-                </td>
+                <td class="py-4 px-6"><span class="px-2 py-1 rounded-md text-[10px] font-bold ${statusColor}">${item.Status_Publish || 'Draft'}</span></td>
+                <td class="py-4 px-6 text-right"><button class="text-gray-400 hover:text-gray-800 text-xs font-bold" onclick="showToast('Fitur edit dalam pengembangan', 'info')"><i class="fas fa-edit"></i> Edit</button></td>
               </tr>
             `;
           });
         }
-        
         updateDashboardPelatihanAktif(dataKatalog);
       } else {
         document.getElementById('dash-count-kelas').innerText = "0";
-        if (tbody) {
-          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Gagal memuat katalog.</td></tr>';
-        }
+        if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Gagal memuat katalog.</td></tr>';
       }
     }
 
     async function muatDataMateri() {
       const tbody = document.getElementById('table-materi-body');
-      if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat materi...</td></tr>';
-      }
+      if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat materi...</td></tr>';
       
       const res = await requestServer("get_all_materi");
       
       if (res && res.status === "success" && res.data) {
         dataMateri = res.data;
         document.getElementById('dash-count-materi').innerText = dataMateri.length;
-        
         if (tbody) {
           tbody.innerHTML = "";
           if (dataMateri.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada materi yang dibuat.</td></tr>';
             return;
           }
-          
           dataMateri.forEach(item => {
             let ikon = 'fa-file-alt text-blue-500';
             let tipe = item.Tipe_Konten || 'Teks';
             if (tipe === 'Video') ikon = 'fa-play-circle text-red-500';
             if (tipe === 'Vault') ikon = 'fa-code text-green-500';
-            
             tbody.innerHTML += `
               <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                <td class="py-4 px-6">
-                  <span class="font-mono text-xs text-gray-500">${item.ID_Materi || '-'}</span>
-                  <br>
-                  <span class="text-[10px] text-brand-600 font-bold">${item.ID_Pelatihan || '-'}</span>
-                </td>
-                <td class="py-4 px-6 font-bold text-gray-800">
-                  ${item.Nomor_Bab ? 'Bab ' + item.Nomor_Bab + ': ' : ''}${item.Judul_Bab || 'Tanpa Judul'}
-                </td>
-                <td class="py-4 px-6">
-                  <i class="fas ${ikon} mr-2"></i>${tipe}
-                </td>
-                <td class="py-4 px-6 text-right">
-                  <button class="text-gray-400 hover:text-gray-800 text-xs font-bold" onclick="showToast('Fitur edit dalam pengembangan', 'info')">
-                    <i class="fas fa-edit"></i> Edit
-                  </button>
-                </td>
+                <td class="py-4 px-6"><span class="font-mono text-xs text-gray-500">${item.ID_Materi || '-'}</span><br><span class="text-[10px] text-brand-600 font-bold">${item.ID_Pelatihan || '-'}</span></td>
+                <td class="py-4 px-6 font-bold text-gray-800">${item.Nomor_Bab ? 'Bab ' + item.Nomor_Bab + ': ' : ''}${item.Judul_Bab || 'Tanpa Judul'}</td>
+                <td class="py-4 px-6"><i class="fas ${ikon} mr-2"></i>${tipe}</td>
+                <td class="py-4 px-6 text-right"><button class="text-gray-400 hover:text-gray-800 text-xs font-bold" onclick="showToast('Fitur edit dalam pengembangan', 'info')"><i class="fas fa-edit"></i> Edit</button></td>
               </tr>
             `;
           });
         }
       } else {
         document.getElementById('dash-count-materi').innerText = "0";
-        if (tbody) {
-          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Gagal memuat materi.</td></tr>';
-        }
+        if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Gagal memuat materi.</td></tr>';
       }
     }
 
@@ -809,12 +613,10 @@
     function updateDashboardMemberTerbaru(members) {
       const container = document.getElementById('dash-member-terbaru');
       if (!container) return;
-      
       if (!members || members.length === 0) {
         container.innerHTML = '<p class="text-xs text-gray-400">Belum ada member terdaftar.</p>';
         return;
       }
-      
       const terbaru = members.slice(-5).reverse();
       container.innerHTML = terbaru.map(m => `
         <div class="flex items-center justify-between py-2 border-b border-gray-50">
@@ -827,18 +629,15 @@
     function updateDashboardPelatihanAktif(katalog) {
       const container = document.getElementById('dash-pelatihan-populer');
       if (!container) return;
-      
       if (!katalog || katalog.length === 0) {
         container.innerHTML = '<p class="text-xs text-gray-400">Belum ada pelatihan aktif.</p>';
         return;
       }
-      
       const aktif = katalog.filter(item => item.Status_Publish === 'Aktif');
       if (aktif.length === 0) {
         container.innerHTML = '<p class="text-xs text-gray-400">Belum ada pelatihan aktif.</p>';
         return;
       }
-      
       container.innerHTML = aktif.slice(0, 5).map(item => `
         <div class="flex items-center justify-between py-2 border-b border-gray-50">
           <span class="font-medium text-gray-700 text-sm">${item.Judul_Pelatihan || 'Tanpa Judul'}</span>
@@ -852,7 +651,6 @@
     // ==========================================
     async function aksiResetPin(email) {
       if (!email) return showToast('Email tidak valid!', 'error');
-      
       const pinBaru = prompt(`Masukkan PIN baru untuk akun ${email}:`, Math.floor(100000 + Math.random() * 900000));
       if (pinBaru && pinBaru.length >= 4) {
         const res = await requestServer("update_pin", { email: email, pin: pinBaru });
@@ -869,7 +667,6 @@
 
     async function aksiUbahStatus(email, currentStatus) {
       if (!email) return showToast('Email tidak valid!', 'error');
-      
       const newStatus = currentStatus === 'Aktif' ? 'Nonaktif' : 'Aktif';
       if (confirm(`Yakin ingin mengubah status akun ${email} menjadi ${newStatus}?`)) {
         const res = await requestServer("update_status", { email: email, status: newStatus });
@@ -893,14 +690,8 @@
         pin: document.getElementById('input-pin').value.trim(),
         akses: document.getElementById('member-akses').value.trim()
       };
-      
-      if (!data.nama || !data.email || !data.pin) {
-        return showToast('Harap lengkapi semua data pendaftaran!', 'error');
-      }
-      
-      if (data.pin.length < 4) {
-        return showToast('PIN minimal 4 digit!', 'error');
-      }
+      if (!data.nama || !data.email || !data.pin) return showToast('Harap lengkapi semua data pendaftaran!', 'error');
+      if (data.pin.length < 4) return showToast('PIN minimal 4 digit!', 'error');
       
       btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...';
       btn.disabled = true;
@@ -929,10 +720,7 @@
         deskripsi: document.getElementById('kat-deskripsi').value.trim(),
         status: document.getElementById('kat-status').value
       };
-      
-      if (!data.id || !data.harga || !data.judul) {
-        return showToast('Harap isi Kode Pelatihan, Harga, dan Judul!', 'error');
-      }
+      if (!data.id || !data.harga || !data.judul) return showToast('Harap isi Kode Pelatihan, Harga, dan Judul!', 'error');
       
       btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...';
       btn.disabled = true;
@@ -960,7 +748,6 @@
         tipe_konten: document.getElementById('tipe-konten').value,
         isi_konten: document.getElementById('editor-textarea').value.trim()
       };
-      
       if (!data.id_pelatihan || !data.judul_bab || !data.isi_konten) {
         return showToast('Harap lengkapi ID Pelatihan, Judul Bab, dan Isi Materi!', 'error');
       }
@@ -985,7 +772,6 @@
     // ==========================================
     // 11. INISIALISASI
     // ==========================================
-    // Buka dashboard pertama kali
     switchMenu('dashboard');
 
     // Auto-refresh setiap 60 detik
