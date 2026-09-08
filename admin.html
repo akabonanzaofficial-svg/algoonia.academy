@@ -8,9 +8,6 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Chart.js untuk Grafik -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
   <!-- Konfigurasi Tema Warna -->
   <script>
     tailwind.config = {
@@ -66,49 +63,20 @@
 
     <div class="flex-1 overflow-y-auto p-8">
       
-      <!-- VIEW: DASHBOARD (GRAFIK & ESTIMASI) -->
-      <section id="view-dashboard" class="view-section space-y-6">
-        <!-- Kartu Statistik -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-              <div class="text-gray-400 text-xs font-bold mb-1 uppercase tracking-wider">Total Pendapatan</div>
-              <div class="text-2xl font-black text-gray-900">Rp 12.5M</div>
-            </div>
-            <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center text-green-500 text-xl"><i class="fas fa-wallet"></i></div>
+      <!-- VIEW: DASHBOARD (STATISTIK DATA RIL) -->
+      <section id="view-dashboard" class="view-section space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 border-l-4 border-blue-500 bg-white shadow-sm rounded-r-xl">
+            <div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Member</div>
+            <div class="text-3xl font-black text-gray-900" id="dash-count-member">0</div>
           </div>
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-              <div class="text-gray-400 text-xs font-bold mb-1 uppercase tracking-wider">Total Member</div>
-              <div class="text-2xl font-black text-gray-900" id="dash-count-member">0</div>
-            </div>
-            <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 text-xl"><i class="fas fa-users"></i></div>
+          <div class="p-6 border-l-4 border-yellow-500 bg-white shadow-sm rounded-r-xl">
+            <div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Kelas Aktif</div>
+            <div class="text-3xl font-black text-gray-900" id="dash-count-kelas">0</div>
           </div>
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-              <div class="text-gray-400 text-xs font-bold mb-1 uppercase tracking-wider">Kelas Aktif</div>
-              <div class="text-2xl font-black text-gray-900">4</div>
-            </div>
-            <div class="w-12 h-12 bg-yellow-50 rounded-full flex items-center justify-center text-yellow-500 text-xl"><i class="fas fa-box"></i></div>
-          </div>
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-              <div class="text-gray-400 text-xs font-bold mb-1 uppercase tracking-wider">Total Modul</div>
-              <div class="text-2xl font-black text-gray-900">24</div>
-            </div>
-            <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center text-purple-500 text-xl"><i class="fas fa-book-open"></i></div>
-          </div>
-        </div>
-
-        <!-- Area Grafik -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 class="font-bold text-gray-800 mb-4">Grafik Pertumbuhan Member</h3>
-            <canvas id="memberChart" height="200"></canvas>
-          </div>
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 class="font-bold text-gray-800 mb-4">Estimasi Penjualan Pelatihan</h3>
-            <canvas id="revenueChart" height="200"></canvas>
+          <div class="p-6 border-l-4 border-green-500 bg-white shadow-sm rounded-r-xl">
+            <div class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Modul Materi</div>
+            <div class="text-3xl font-black text-gray-900" id="dash-count-materi">0</div>
           </div>
         </div>
       </section>
@@ -364,11 +332,15 @@
       const titles = { 'dashboard': 'Analitik & Grafik', 'katalog': 'Katalog Pelatihan', 'materi': 'Modul Materi', 'member': 'Database Member' };
       document.getElementById('page-title').innerText = titles[target];
 
-      // Load data otomatis saat ganti tab
-      if (target === 'member' || target === 'dashboard') muatDataMember();
+      // Load data otomatis saat ganti tab untuk memperbarui angka di kotak dashboard
+      if (target === 'dashboard') {
+        muatDataMember();
+        muatDataKatalog();
+        muatDataMateri();
+      }
+      if (target === 'member') muatDataMember();
       if (target === 'materi') muatDataMateri();
       if (target === 'katalog') muatDataKatalog();
-      if (target === 'dashboard') renderGrafik();
     }
 
     function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); }
@@ -418,19 +390,19 @@
       }
     }
 
-    // --- 4. FUNGSI MENAMPILKAN DATA (READ) ---
+    // --- 4. FUNGSI MENAMPILKAN DATA (READ & UPDATE STATISTIK DASHBOARD) ---
     async function muatDataMember() {
       const tbody = document.getElementById('table-member-body');
       const res = await requestServer("get_members", {});
       
       if (res && res.status === "success" && res.data.length > 0) {
         document.getElementById('dash-count-member').innerText = res.data.length;
-        tbody.innerHTML = "";
+        if(tbody) tbody.innerHTML = "";
         
         res.data.forEach(item => {
           const status = item.Status || 'Aktif'; 
           const statusColor = status === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600';
-          tbody.innerHTML += `
+          if(tbody) tbody.innerHTML += `
             <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
               <td class="py-4 px-6"><div class="font-bold text-gray-800">${item.Nama_Lengkap}</div><div class="text-xs text-gray-400 mt-0.5">${item.Email}</div></td>
               <td class="py-4 px-6"><span class="bg-brand-50 text-brand-600 text-[10px] font-bold px-2 py-1 rounded">${item.Akses_Pelatihan}</span><div class="text-xs font-mono text-gray-500 mt-1"><i class="fas fa-key text-gray-300"></i> ${item.PIN}</div></td>
@@ -442,20 +414,23 @@
             </tr>`;
         });
       } else {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada data member.</td></tr>';
+        document.getElementById('dash-count-member').innerText = "0";
+        if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada data member.</td></tr>';
       }
     }
 
     async function muatDataKatalog() {
       const tbody = document.getElementById('table-katalog-body');
-      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>';
+      if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>';
       
       const res = await requestServer("get_katalog", {});
       if (res && res.status === "success" && res.data.length > 0) {
-        tbody.innerHTML = "";
+        document.getElementById('dash-count-kelas').innerText = res.data.length;
+        if(tbody) tbody.innerHTML = "";
+        
         res.data.forEach(item => {
           const statusColor = item.Status_Publish === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-600';
-          tbody.innerHTML += `
+          if(tbody) tbody.innerHTML += `
             <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
               <td class="py-4 px-6 flex items-center space-x-4"><img src="${item.Gambar_Cover || 'https://via.placeholder.com/150'}" class="w-16 h-10 object-cover rounded shadow-sm bg-gray-200"><div><div class="font-bold text-gray-800 text-sm">${item.Judul_Pelatihan}</div><div class="text-[10px] text-gray-400">ID: ${item.ID_Pelatihan}</div></div></td>
               <td class="py-4 px-6 font-bold text-brand-600">Rp ${item.Harga}</td>
@@ -464,20 +439,23 @@
             </tr>`;
         });
       } else {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Katalog masih kosong.</td></tr>';
+        document.getElementById('dash-count-kelas').innerText = "0";
+        if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Katalog masih kosong.</td></tr>';
       }
     }
 
     async function muatDataMateri() {
       const tbody = document.getElementById('table-materi-body');
-      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Mengambil materi...</td></tr>';
+      if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Mengambil materi...</td></tr>';
       
       const res = await requestServer("get_all_materi", {});
       if (res && res.status === "success" && res.data.length > 0) {
-        tbody.innerHTML = "";
+        document.getElementById('dash-count-materi').innerText = res.data.length;
+        if(tbody) tbody.innerHTML = "";
+        
         res.data.forEach(item => {
           let ikon = item.Tipe_Konten === 'Video' ? 'text-red-500 fa-play-circle' : (item.Tipe_Konten === 'Vault' ? 'text-green-500 fa-code' : 'text-blue-500 fa-file-alt');
-          tbody.innerHTML += `
+          if(tbody) tbody.innerHTML += `
             <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
               <td class="py-4 px-6 font-mono text-xs text-gray-500">${item.ID_Materi} <br><span class="text-[10px] text-brand-600 font-bold">${item.ID_Pelatihan}</span></td>
               <td class="py-4 px-6 font-bold text-gray-800">Bab ${item.Nomor_Bab}: ${item.Judul_Bab}</td>
@@ -486,7 +464,8 @@
             </tr>`;
         });
       } else {
-         tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada materi yang dibuat.</td></tr>';
+         document.getElementById('dash-count-materi').innerText = "0";
+         if(tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada materi yang dibuat.</td></tr>';
       }
     }
 
@@ -574,34 +553,8 @@
       }
     }
 
-    // --- 7. RENDER GRAFIK CHART.JS ---
-    function renderGrafik() {
-      if(window.memberChartObj) window.memberChartObj.destroy();
-      if(window.revenueChartObj) window.revenueChartObj.destroy();
-      
-      const ctxMember = document.getElementById('memberChart').getContext('2d');
-      window.memberChartObj = new Chart(ctxMember, {
-        type: 'line', 
-        data: { 
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'], 
-          datasets: [{ label: 'Member Baru', data: [12, 19, 30, 45, 60, 85], borderColor: '#eab308', tension: 0.4, fill: true, backgroundColor: 'rgba(234, 179, 8, 0.1)' }] 
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-      });
-      
-      const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
-      window.revenueChartObj = new Chart(ctxRevenue, {
-        type: 'bar', 
-        data: { 
-          labels: ['Affiliate', 'SEO', 'Web Dev', 'Desain'], 
-          datasets: [{ label: 'Total Pembelian', data: [120, 80, 50, 40], backgroundColor: '#ca8a04', borderRadius: 6 }] 
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-      });
-    }
-
     // --- INISIALISASI AWAL ---
-    // Pastikan halaman yang terbuka pertama kali adalah Dashboard
+    // Buka dashboard pertama kali & load semua data
     switchMenu('dashboard');
   </script>
 </body>
