@@ -204,7 +204,7 @@
     }
 
     // ==========================================
-    // 4. LOGIKA LOGIN & SESI
+    // 4. LOGIKA LOGIN & SESI (DIPERBARUI)
     // ==========================================
     async function prosesLogin() {
       const email = document.getElementById('email').value.trim();
@@ -215,17 +215,31 @@
       btn.innerText = "Memeriksa..."; btn.disabled = true;
 
       try {
-        const response = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "login", email: email, pin: pin }) });
+        // PERBAIKAN: Menambahkan headers text/plain agar tidak diblokir oleh keamanan Browser/Google
+        const response = await fetch(API_URL, { 
+          redirect: "follow",
+          method: "POST", 
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify({ action: "login", email: email, pin: pin }) 
+        });
+        
         const hasil = await response.json();
+        
         if (hasil.status === "success") {
           localStorage.setItem("algn_user", JSON.stringify(hasil.data));
           periksaSesi();
-        } else { alert(hasil.message); }
-      } catch (err) { alert("Gagal koneksi. Pastikan izin akses script (Deploy) disetel ke 'Anyone'."); }
+        } else { 
+          alert(hasil.message); 
+        }
+      } catch (err) { 
+        console.error(err);
+        alert("Gagal koneksi. Pastikan internet aktif dan izin Apps Script sudah 'Anyone'."); 
+      }
 
       btn.innerText = "Masuk ke Pelatihan"; btn.disabled = false;
     }
-
     function periksaSesi() {
       const userData = localStorage.getItem("algn_user");
       if (userData) {
