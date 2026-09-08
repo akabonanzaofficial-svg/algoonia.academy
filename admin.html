@@ -4,19 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Super Admin - ALGOONIA ACADEMY</title>
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Menambahkan Chart.js untuk Grafik -->
+  
+  <!-- Chart.js untuk Grafik -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Konfigurasi Tema Warna -->
   <script>
     tailwind.config = {
       theme: { extend: { colors: { brand: { 50: '#fefce8', 100: '#fef9c3', 400: '#facc15', 500: '#eab308', 600: '#ca8a04', 900: '#713f12' } } } }
     }
   </script>
+  
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 flex h-screen overflow-hidden">
 
-  <!-- SIDEBAR -->
+  <!-- ========================================== -->
+  <!-- SIDEBAR (MENU KIRI) -->
+  <!-- ========================================== -->
   <aside class="w-64 bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm">
     <div class="h-16 flex items-center px-6 border-b border-gray-100">
       <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white font-black text-sm mr-3 shadow-md">A</div>
@@ -39,7 +48,9 @@
     </nav>
   </aside>
 
+  <!-- ========================================== -->
   <!-- AREA KERJA UTAMA -->
+  <!-- ========================================== -->
   <main class="flex-1 flex flex-col h-screen overflow-hidden relative bg-gray-50/50">
     <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 z-10 sticky top-0">
       <h2 id="page-title" class="text-lg font-black text-gray-800 tracking-tight">Analitik & Grafik</h2>
@@ -107,7 +118,7 @@
         <div class="flex justify-between items-center">
           <div>
             <h3 class="font-bold text-gray-800 text-lg">Manajemen Pelatihan (Katalog)</h3>
-            <p class="text-xs text-gray-400">Atur harga, gambar *flyer*, dan detail pelatihan Anda di sini.</p>
+            <p class="text-xs text-gray-400">Atur harga, gambar poster, dan detail pelatihan Anda di sini.</p>
           </div>
           <button onclick="bukaModal('modal-katalog')" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-yellow-200 transition">+ Buat Pelatihan Baru</button>
         </div>
@@ -123,7 +134,7 @@
               </tr>
             </thead>
             <tbody id="table-katalog-body">
-              <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-store text-3xl mb-3 block text-gray-300"></i>Belum ada data pelatihan dimuat.</td></tr>
+              <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>
             </tbody>
           </table>
         </div>
@@ -139,7 +150,6 @@
           <button onclick="bukaModal('modal-materi')" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-yellow-200 transition">+ Tulis Bab Baru</button>
         </div>
 
-        <!-- Fitur Pencarian & Filter Materi -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex space-x-4">
           <div class="flex-1 relative">
             <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
@@ -158,7 +168,7 @@
               </tr>
             </thead>
             <tbody id="table-materi-body">
-              <tr><td colspan="4" class="text-center py-10 text-gray-400">Memuat daftar materi...</td></tr>
+              <tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat daftar materi...</td></tr>
             </tbody>
           </table>
         </div>
@@ -169,12 +179,11 @@
         <div class="flex justify-between items-center">
           <div>
             <h3 class="font-bold text-gray-800 text-lg">Database Member</h3>
-            <p class="text-xs text-gray-400">Atur akses, nonaktifkan akun, atau *reset password* member Anda.</p>
+            <p class="text-xs text-gray-400">Atur akses, nonaktifkan akun, atau ubah *password* member Anda.</p>
           </div>
           <button onclick="bukaModal('modal-member')" class="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition">+ Tambah Member</button>
         </div>
 
-        <!-- Fitur Pencarian Member -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex space-x-4">
           <div class="flex-1 relative">
             <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
@@ -203,7 +212,7 @@
   </main>
 
   <!-- ========================================== -->
-  <!-- MODAL: TAMBAH PELATIHAN (BARU) -->
+  <!-- MODAL: TAMBAH PELATIHAN (KATALOG) -->
   <!-- ========================================== -->
   <div id="modal-katalog" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
     <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
@@ -248,9 +257,10 @@
     </div>
   </div>
 
-  <!-- Modal Tambah Member (Disempurnakan tampilannya) -->
+  <!-- ========================================== -->
+  <!-- MODAL: TAMBAH MEMBER -->
+  <!-- ========================================== -->
   <div id="modal-member" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-    <!-- Konten form sama seperti sebelumnya, hanya disempurnakan border-radiusnya -->
     <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col">
        <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
         <h3 class="font-bold text-gray-800">Tambah Member Baru</h3>
@@ -281,10 +291,11 @@
     </div>
   </div>
 
-  <!-- Modal Materi (Tetap dipertahankan dari versi sebelumnya, desain disamakan) -->
+  <!-- ========================================== -->
+  <!-- MODAL: EDITOR MATERI (TEXT, VIDEO, VAULT) -->
+  <!-- ========================================== -->
   <div id="modal-materi" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        <!-- Area form Tulis Materi (Identik dengan sebelumnya) -->
         <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
             <h3 class="font-bold text-gray-800">Tulis Materi Bab Baru</h3>
             <button onclick="tutupModal('modal-materi')" class="text-gray-400"><i class="fas fa-times"></i></button>
@@ -301,7 +312,7 @@
               </div>
               <div>
                 <label class="block text-xs font-bold text-gray-600 mb-1">TIPE KONTEN</label>
-                <select id="tipe-konten" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold">
+                <select id="tipe-konten" onchange="ubahTipeEditor()" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold">
                   <option value="Teks">Teks / Artikel HTML</option>
                   <option value="Video">Video (YouTube Embed)</option>
                   <option value="Vault">Copy-Paste Vault</option>
@@ -313,20 +324,32 @@
               <input type="text" id="mat-judul-bab" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold text-gray-800">
             </div>
             <div>
-              <label class="block text-xs font-bold text-gray-600 mb-1">ISI KONTEN MATERI</label>
-              <textarea id="editor-textarea" rows="12" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-mono" placeholder="Ketik materi..."></textarea>
+              <div class="flex justify-between items-end mb-1">
+                <label class="block text-xs font-bold text-gray-600">ISI KONTEN MATERI</label>
+                <div id="toolbar-teks" class="flex space-x-2 bg-gray-100 rounded-lg p-1">
+                  <button onclick="masukkanFormat('<b>Teks Tebal</b>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-serif font-bold shadow-sm">B</button>
+                  <button onclick="masukkanFormat('<i>Teks Miring</i>')" class="w-8 h-8 rounded bg-white text-gray-600 hover:text-brand-600 font-serif italic shadow-sm">I</button>
+                  <div class="w-px bg-gray-300 mx-1"></div>
+                  <button onclick="masukkanGambarURL()" class="w-8 h-8 rounded bg-white text-blue-500 shadow-sm"><i class="fas fa-image"></i></button>
+                </div>
+              </div>
+              <textarea id="editor-textarea" rows="12" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm font-mono focus:outline-none" placeholder="Ketik materi..."></textarea>
             </div>
         </div>
         <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
-            <button onclick="simpanMateriData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md">Simpan Materi</button>
+            <button onclick="simpanMateriData()" class="px-6 py-2.5 bg-brand-500 text-white font-bold rounded-xl shadow-md hover:bg-brand-600 transition">Simpan Materi</button>
         </div>
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- SCRIPT LOGIKA API & INTERAKSI (FINAL) -->
+  <!-- ========================================== -->
   <script>
+    // URL API GOOGLE APPS SCRIPT ANDA
     const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec";
 
-    // 1. NAVIGASI
+    // --- 1. NAVIGASI & UI ---
     function switchMenu(target) {
       document.querySelectorAll('.menu-btn').forEach(btn => {
         const isActive = btn.dataset.target === target;
@@ -334,12 +357,14 @@
         btn.classList.toggle('bg-brand-50', isActive);
         btn.classList.toggle('text-gray-500', !isActive);
       });
+      
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.getElementById('view-' + target).classList.remove('hidden');
 
       const titles = { 'dashboard': 'Analitik & Grafik', 'katalog': 'Katalog Pelatihan', 'materi': 'Modul Materi', 'member': 'Database Member' };
       document.getElementById('page-title').innerText = titles[target];
 
+      // Load data otomatis saat ganti tab
       if (target === 'member' || target === 'dashboard') muatDataMember();
       if (target === 'materi') muatDataMateri();
       if (target === 'katalog') muatDataKatalog();
@@ -348,8 +373,8 @@
 
     function bukaModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function tutupModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-    // 2. FITUR PENCARIAN REAL-TIME
+    
+    // Fitur Pencarian Tabel
     function filterTabel(inputId, tbodyId) {
       const input = document.getElementById(inputId).value.toLowerCase();
       const rows = document.getElementById(tbodyId).getElementsByTagName('tr');
@@ -359,123 +384,224 @@
       }
     }
 
-    // 3. FITUR AKSI MEMBER (UBAH PIN & STATUS)
-    function aksiResetPin(email) {
-      const pinBaru = prompt(`Masukkan PIN baru untuk akun ${email}:`, Math.floor(100000 + Math.random() * 900000));
-      if(pinBaru) alert(`PENTING: Fitur update PIN ini membutuhkan integrasi Google Apps Script (Action: update_pin). PIN sementara diset ke: ${pinBaru}`);
+    // --- 2. EDITOR BANTUAN ---
+    function ubahTipeEditor() {
+      const tipe = document.getElementById('tipe-konten').value;
+      const toolbar = document.getElementById('toolbar-teks');
+      if (tipe === 'Teks') toolbar.classList.remove('hidden'); else toolbar.classList.add('hidden');
+    }
+    
+    function masukkanFormat(tag) { 
+      const textarea = document.getElementById('editor-textarea'); 
+      textarea.value += tag + "\n"; 
+      textarea.focus(); 
+    }
+    
+    function masukkanGambarURL() {
+      const url = prompt("Masukkan Link / URL Gambar Anda:\n(Contoh: https://link-gambar.com/foto.jpg)");
+      if (url) document.getElementById('editor-textarea').value += `\n<img src="${url}" alt="Ilustrasi" style="max-width: 100%; border-radius: 8px; margin: 15px 0;">\n`;
     }
 
-    function aksiUbahStatus(email, currentStatus) {
-      const newStatus = currentStatus === 'Aktif' ? 'Nonaktif' : 'Aktif';
-      if(confirm(`Yakin ingin mengubah status akun ${email} menjadi ${newStatus}?`)) {
-        alert(`PENTING: Fitur blokir/aktifkan akun membutuhkan integrasi API (Action: update_status). Sistem akan mengubahnya menjadi ${newStatus}.`);
+    // --- 3. FUNGSI REQUEST KE SERVER (FETCH API) ---
+    async function requestServer(action, payload) {
+      try {
+        const response = await fetch(API_URL, {
+          redirect: "follow", 
+          method: "POST", 
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action: action, ...payload })
+        });
+        return await response.json();
+      } catch (err) {
+        alert("Terjadi kesalahan jaringan.");
+        return null;
       }
     }
 
-    // 4. PEMANGGILAN DATA (READ)
+    // --- 4. FUNGSI MENAMPILKAN DATA (READ) ---
     async function muatDataMember() {
       const tbody = document.getElementById('table-member-body');
-      try {
-        const response = await fetch(API_URL, { redirect: "follow", method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "get_members" }) });
-        const res = await response.json();
+      const res = await requestServer("get_members", {});
+      
+      if (res && res.status === "success" && res.data.length > 0) {
+        document.getElementById('dash-count-member').innerText = res.data.length;
+        tbody.innerHTML = "";
         
-        if (res.status === "success" && res.data.length > 0) {
-          document.getElementById('dash-count-member').innerText = res.data.length;
-          tbody.innerHTML = "";
-          res.data.forEach(item => {
-            // Simulasi status (Jika ada kolom Status di excel, pakai itu. Jika tidak, anggap Aktif)
-            const status = item.Status || 'Aktif'; 
-            const statusColor = status === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600';
-
-            tbody.innerHTML += `
-              <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                <td class="py-4 px-6">
-                  <div class="font-bold text-gray-800">${item.Nama_Lengkap}</div>
-                  <div class="text-xs text-gray-400 mt-0.5">${item.Email}</div>
-                </td>
-                <td class="py-4 px-6">
-                  <span class="bg-brand-50 text-brand-600 text-[10px] font-bold px-2 py-1 rounded">${item.Akses_Pelatihan}</span>
-                  <div class="text-xs font-mono text-gray-500 mt-1"><i class="fas fa-key text-gray-300"></i> ${item.PIN}</div>
-                </td>
-                <td class="py-4 px-6 text-center">
-                  <span class="px-3 py-1 rounded-full text-[10px] font-bold ${statusColor}">${status}</span>
-                </td>
-                <td class="py-4 px-6 text-right space-x-2">
-                  <button onclick="aksiResetPin('${item.Email}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition" title="Reset PIN"><i class="fas fa-key"></i></button>
-                  <button onclick="aksiUbahStatus('${item.Email}', '${status}')" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-gray-200 transition" title="Banned/Aktifkan"><i class="fas fa-power-off"></i></button>
-                </td>
-              </tr>
-            `;
-          });
-        }
-      } catch (err) {}
+        res.data.forEach(item => {
+          const status = item.Status || 'Aktif'; 
+          const statusColor = status === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600';
+          tbody.innerHTML += `
+            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+              <td class="py-4 px-6"><div class="font-bold text-gray-800">${item.Nama_Lengkap}</div><div class="text-xs text-gray-400 mt-0.5">${item.Email}</div></td>
+              <td class="py-4 px-6"><span class="bg-brand-50 text-brand-600 text-[10px] font-bold px-2 py-1 rounded">${item.Akses_Pelatihan}</span><div class="text-xs font-mono text-gray-500 mt-1"><i class="fas fa-key text-gray-300"></i> ${item.PIN}</div></td>
+              <td class="py-4 px-6 text-center"><span class="px-3 py-1 rounded-full text-[10px] font-bold ${statusColor}">${status}</span></td>
+              <td class="py-4 px-6 text-right space-x-2">
+                <button onclick="aksiResetPin('${item.Email}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition" title="Ubah PIN"><i class="fas fa-key"></i></button>
+                <button onclick="aksiUbahStatus('${item.Email}', '${status}')" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-500 transition" title="Blokir/Aktifkan"><i class="fas fa-power-off"></i></button>
+              </td>
+            </tr>`;
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada data member.</td></tr>';
+      }
     }
 
     async function muatDataKatalog() {
       const tbody = document.getElementById('table-katalog-body');
-      try {
-        const response = await fetch(API_URL, { redirect: "follow", method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "get_katalog" }) });
-        const res = await response.json();
-        
-        if (res.status === "success" && res.data.length > 0) {
-          tbody.innerHTML = "";
-          res.data.forEach(item => {
-            const statusColor = item.Status_Publish === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-600';
-            tbody.innerHTML += `
-              <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
-                <td class="py-4 px-6 flex items-center space-x-4">
-                  <img src="${item.Gambar_Cover}" class="w-16 h-10 object-cover rounded shadow-sm bg-gray-200">
-                  <div>
-                    <div class="font-bold text-gray-800 text-sm">${item.Judul_Pelatihan}</div>
-                    <div class="text-[10px] text-gray-400">ID: ${item.ID_Pelatihan}</div>
-                  </div>
-                </td>
-                <td class="py-4 px-6 font-bold text-brand-600">Rp ${item.Harga}</td>
-                <td class="py-4 px-6"><span class="px-2 py-1 rounded-md text-[10px] font-bold ${statusColor}">${item.Status_Publish}</span></td>
-                <td class="py-4 px-6 text-right">
-                  <button class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-gray-200" title="Edit Data"><i class="fas fa-edit"></i></button>
-                </td>
-              </tr>
-            `;
-          });
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat katalog...</td></tr>';
+      
+      const res = await requestServer("get_katalog", {});
+      if (res && res.status === "success" && res.data.length > 0) {
+        tbody.innerHTML = "";
+        res.data.forEach(item => {
+          const statusColor = item.Status_Publish === 'Aktif' ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-600';
+          tbody.innerHTML += `
+            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+              <td class="py-4 px-6 flex items-center space-x-4"><img src="${item.Gambar_Cover || 'https://via.placeholder.com/150'}" class="w-16 h-10 object-cover rounded shadow-sm bg-gray-200"><div><div class="font-bold text-gray-800 text-sm">${item.Judul_Pelatihan}</div><div class="text-[10px] text-gray-400">ID: ${item.ID_Pelatihan}</div></div></td>
+              <td class="py-4 px-6 font-bold text-brand-600">Rp ${item.Harga}</td>
+              <td class="py-4 px-6"><span class="px-2 py-1 rounded-md text-[10px] font-bold ${statusColor}">${item.Status_Publish}</span></td>
+              <td class="py-4 px-6 text-right"><button class="text-gray-400 hover:text-gray-800 text-xs font-bold"><i class="fas fa-edit"></i> Edit</button></td>
+            </tr>`;
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Katalog masih kosong.</td></tr>';
+      }
+    }
+
+    async function muatDataMateri() {
+      const tbody = document.getElementById('table-materi-body');
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i> Mengambil materi...</td></tr>';
+      
+      const res = await requestServer("get_all_materi", {});
+      if (res && res.status === "success" && res.data.length > 0) {
+        tbody.innerHTML = "";
+        res.data.forEach(item => {
+          let ikon = item.Tipe_Konten === 'Video' ? 'text-red-500 fa-play-circle' : (item.Tipe_Konten === 'Vault' ? 'text-green-500 fa-code' : 'text-blue-500 fa-file-alt');
+          tbody.innerHTML += `
+            <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+              <td class="py-4 px-6 font-mono text-xs text-gray-500">${item.ID_Materi} <br><span class="text-[10px] text-brand-600 font-bold">${item.ID_Pelatihan}</span></td>
+              <td class="py-4 px-6 font-bold text-gray-800">Bab ${item.Nomor_Bab}: ${item.Judul_Bab}</td>
+              <td class="py-4 px-6"><i class="fas ${ikon} mr-2"></i>${item.Tipe_Konten}</td>
+              <td class="py-4 px-6 text-right"><button class="text-gray-400 hover:text-gray-800 text-xs font-bold"><i class="fas fa-edit"></i> Edit</button></td>
+            </tr>`;
+        });
+      } else {
+         tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-gray-400">Belum ada materi yang dibuat.</td></tr>';
+      }
+    }
+
+    // --- 5. FUNGSI AKSI UBAH DATA (UPDATE) ---
+    async function aksiResetPin(email) {
+      const pinBaru = prompt(`Masukkan PIN baru untuk akun ${email}:`, Math.floor(100000 + Math.random() * 900000));
+      if(pinBaru) {
+        const res = await requestServer("update_pin", { email: email, pin: pinBaru });
+        if(res && res.status === "success") { 
+          alert("✅ PIN berhasil diperbarui!"); 
+          muatDataMember(); 
         }
-      } catch (err) {}
+      }
     }
 
-    // Fungsi Render Tabel Materi Dummy (Menunggu Update API)
-    function muatDataMateri() {
-      // Karena belum ada API untuk mengambil SEMUA materi di Script saat ini, 
-      // Tabel ini akan terisi jika backend Script sudah diupdate
-      document.getElementById('table-materi-body').innerHTML = `<tr><td colspan="4" class="text-center py-10 text-gray-400">Silakan update Google Apps Script Anda dengan fungsi <b>get_all_materi</b> agar list materi muncul di sini.</td></tr>`;
+    async function aksiUbahStatus(email, currentStatus) {
+      const newStatus = currentStatus === 'Aktif' ? 'Nonaktif' : 'Aktif';
+      if(confirm(`Yakin ingin mengubah status akun ${email} menjadi ${newStatus}?`)) {
+        const res = await requestServer("update_status", { email: email, status: newStatus });
+        if(res && res.status === "success") { 
+          alert(`✅ Status akun berhasil diubah menjadi ${newStatus}!`); 
+          muatDataMember(); 
+        }
+      }
     }
 
-    // 5. CHART.JS (Grafik Dashboard)
+    // --- 6. FUNGSI MENYIMPAN DATA BARU (CREATE) ---
+    async function simpanMemberData() {
+      const data = {
+        nama: document.getElementById('member-nama').value.trim(), 
+        email: document.getElementById('member-email').value.trim(),
+        pin: document.getElementById('input-pin').value.trim(), 
+        akses: document.getElementById('member-akses').value.trim()
+      };
+      
+      if(!data.nama || !data.email || !data.pin) return alert("Harap lengkapi semua data pendaftaran!");
+      
+      document.getElementById('btn-simpan-member').innerText = "Menyimpan ke Database...";
+      
+      const res = await requestServer("add_member", { data: data });
+      if(res && res.status === "success") { 
+        alert("✅ Member berhasil ditambahkan!"); 
+        tutupModal('modal-member'); 
+        muatDataMember(); 
+      }
+      document.getElementById('btn-simpan-member').innerText = "Simpan Member";
+    }
+
+    async function simpanKatalogData() {
+      const data = {
+        id: document.getElementById('kat-id').value.trim(), 
+        harga: document.getElementById('kat-harga').value.trim(),
+        judul: document.getElementById('kat-judul').value.trim(), 
+        gambar: document.getElementById('kat-gambar').value.trim(),
+        deskripsi: document.getElementById('kat-deskripsi').value.trim(), 
+        status: document.getElementById('kat-status').value
+      };
+      
+      if(!data.id || !data.harga || !data.judul) return alert("Harap isi Kode Pelatihan, Harga, dan Judul!");
+      
+      const res = await requestServer("add_katalog", { data: data });
+      if(res && res.status === "success") { 
+        alert("✅ Pelatihan baru berhasil dirilis ke Katalog!"); 
+        tutupModal('modal-katalog'); 
+        muatDataKatalog(); 
+      }
+    }
+
+    async function simpanMateriData() {
+      const data = {
+        id_pelatihan: document.getElementById('mat-id-pelatihan').value.trim(), 
+        nomor_bab: document.getElementById('mat-nomor-bab').value.trim(),
+        judul_bab: document.getElementById('mat-judul-bab').value.trim(), 
+        tipe_konten: document.getElementById('tipe-konten').value,
+        isi_konten: document.getElementById('editor-textarea').value.trim()
+      };
+      
+      if(!data.judul_bab || !data.isi_konten) return alert("Harap lengkapi Judul Bab dan Isi Materi!");
+      
+      const res = await requestServer("add_materi", { data: data });
+      if(res && res.status === "success") { 
+        alert("✅ Materi Bab berhasil disimpan!"); 
+        tutupModal('modal-materi'); 
+        muatDataMateri(); 
+      }
+    }
+
+    // --- 7. RENDER GRAFIK CHART.JS ---
     function renderGrafik() {
-      // Pastikan grafik tidak diduplikasi saat pindah menu
       if(window.memberChartObj) window.memberChartObj.destroy();
       if(window.revenueChartObj) window.revenueChartObj.destroy();
-
+      
       const ctxMember = document.getElementById('memberChart').getContext('2d');
       window.memberChartObj = new Chart(ctxMember, {
-        type: 'line',
-        data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'], datasets: [{ label: 'Member Baru', data: [12, 19, 30, 45, 60, 85], borderColor: '#eab308', tension: 0.4, fill: true, backgroundColor: 'rgba(234, 179, 8, 0.1)' }] },
+        type: 'line', 
+        data: { 
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'], 
+          datasets: [{ label: 'Member Baru', data: [12, 19, 30, 45, 60, 85], borderColor: '#eab308', tension: 0.4, fill: true, backgroundColor: 'rgba(234, 179, 8, 0.1)' }] 
+        },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
       });
-
+      
       const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
       window.revenueChartObj = new Chart(ctxRevenue, {
-        type: 'bar',
-        data: { labels: ['Kelas Affiliate', 'Kelas SEO', 'Web Dev', 'Desain'], datasets: [{ label: 'Pembelian', data: [120, 80, 50, 40], backgroundColor: '#ca8a04', borderRadius: 6 }] },
+        type: 'bar', 
+        data: { 
+          labels: ['Affiliate', 'SEO', 'Web Dev', 'Desain'], 
+          datasets: [{ label: 'Total Pembelian', data: [120, 80, 50, 40], backgroundColor: '#ca8a04', borderRadius: 6 }] 
+        },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
       });
     }
 
-    // 6. FUNGSI MENYIMPAN DATA BARU (POST)
-    async function simpanKatalogData() { alert("Fitur simpan katalog segera aktif setelah update API!"); tutupModal('modal-katalog'); }
-    async function simpanMemberData() { alert("Mengirim data pendaftaran..."); tutupModal('modal-member'); muatDataMember(); }
-    async function simpanMateriData() { alert("Mengirim materi..."); tutupModal('modal-materi'); }
-
-    // Inisialisasi awal
+    // --- INISIALISASI AWAL ---
+    // Pastikan halaman yang terbuka pertama kali adalah Dashboard
     switchMenu('dashboard');
   </script>
 </body>
