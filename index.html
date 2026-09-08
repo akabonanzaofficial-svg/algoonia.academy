@@ -158,15 +158,15 @@
 
   <script>
     // ==========================================
-    // 1. URL API GOOGLE APPS SCRIPT
+    // 1. URL API GOOGLE APPS SCRIPT (SUDAH DIPASANG)
     // ==========================================
-    const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec"; // <-- GANTI DENGAN URL ANDA
+    const API_URL = "https://script.google.com/macros/s/AKfycbxT3UhKTJjYMz7tQXLciwaKFrVOyAFnCtjYOIbZnFekFvJTG-KJ2fqDHG1bLOI3fHd3IQ/exec";
 
     // ==========================================
     // 2. VARIABEL GLOBAL (STATE)
     // ==========================================
-    let daftarMateriAktif = []; // Menyimpan list bab pelatihan yang sedang dibuka
-    let indeksBabAktif = 0;     // Penanda sedang di bab berapa
+    let daftarMateriAktif = []; 
+    let indeksBabAktif = 0;     
 
     // ==========================================
     // 3. LOGIKA NAVIGASI HALAMAN
@@ -181,12 +181,9 @@
     };
 
     function switchView(target) {
-      // Sembunyikan semua layar
       Object.keys(views).forEach(key => views[key].classList.add('hidden'));
-      // Tampilkan layar target
       views[target].classList.remove('hidden');
 
-      // Mode Imersif: Sembunyikan Header & Bottom Nav jika masuk ke Ruang Baca
       const mainHeader = document.getElementById('main-header');
       const bottomNav = document.getElementById('bottom-nav');
       if (target === 'daftar-isi' || target === 'materi') {
@@ -195,7 +192,6 @@
       } else {
         mainHeader.classList.remove('hidden');
         bottomNav.classList.remove('hidden');
-        // Update warna bottom nav
         document.querySelectorAll('.nav-btn').forEach(btn => {
           const isActive = btn.dataset.target === target;
           btn.classList.toggle('text-brand-600', isActive);
@@ -203,7 +199,6 @@
         });
       }
 
-      // Jalankan fungsi sesuai layar
       if (target === 'home') muatKatalog();
       if (target === 'belajar') muatPelatihanSaya();
     }
@@ -226,7 +221,7 @@
           localStorage.setItem("algn_user", JSON.stringify(hasil.data));
           periksaSesi();
         } else { alert(hasil.message); }
-      } catch (err) { alert("Gagal koneksi. Periksa URL API Anda."); }
+      } catch (err) { alert("Gagal koneksi. Pastikan izin akses script (Deploy) disetel ke 'Anyone'."); }
 
       btn.innerText = "Masuk ke Pelatihan"; btn.disabled = false;
     }
@@ -255,13 +250,11 @@
       const container = document.getElementById('belajar-container');
       const user = JSON.parse(localStorage.getItem("algn_user") || "{}");
       
-      // Data Akses: Misalnya "PLT-001"
       if (!user.akses) {
         container.innerHTML = `<div class="text-center py-10"><i class="fas fa-lock text-3xl text-gray-300 mb-2"></i><p class="text-xs text-gray-500">Belum ada pelatihan aktif.</p></div>`;
         return;
       }
 
-      // Memecah kode pelatihan jika member beli lebih dari 1 (misal "PLT-001, PLT-002")
       const listAkses = user.akses.split(',').map(item => item.trim());
       container.innerHTML = "";
 
@@ -280,11 +273,10 @@
       });
     }
 
-    // A. Memanggil Daftar Isi dari Spreadsheet
     async function bukaModul(idPelatihan) {
       const container = document.getElementById('daftar-isi-container');
-      container.innerHTML = "<div class="text-center text-xs text-gray-400 py-10">Memuat daftar materi...</div>";
-      switchView('daftar-isi'); // Pindah layar
+      container.innerHTML = "<div class='text-center text-xs text-gray-400 py-10'>Memuat daftar materi...</div>";
+      switchView('daftar-isi'); 
 
       try {
         const response = await fetch(API_URL, {
@@ -294,11 +286,10 @@
         const res = await response.json();
 
         if (res.status === "success" && res.data.length > 0) {
-          daftarMateriAktif = res.data; // Simpan ke memory agar bisa digeser Next/Prev
+          daftarMateriAktif = res.data; 
           container.innerHTML = "";
           
           daftarMateriAktif.forEach((bab, index) => {
-            // Tentukan ikon berdasarkan tipe konten
             let ikon = "fa-file-alt";
             if (bab.Tipe_Konten.toLowerCase() === 'video') ikon = "fa-play-circle text-red-500";
             if (bab.Tipe_Konten.toLowerCase() === 'vault') ikon = "fa-code text-green-500";
@@ -324,7 +315,6 @@
       }
     }
 
-    // B. Membuka dan Merender Isi Bab
     function bukaBab(index) {
       indeksBabAktif = index;
       const bab = daftarMateriAktif[index];
@@ -335,9 +325,7 @@
       const kontenContainer = document.getElementById('materi-konten-container');
       const tipe = bab.Tipe_Konten.toLowerCase();
       
-      // Render berdasarkan tipe
       if (tipe === 'video') {
-        // Embed YouTube (Asumsi Isi_Konten adalah link youtube embed)
         kontenContainer.innerHTML = `
           <div class="video-container shadow-md mb-4">
             <iframe src="${bab.Isi_Konten}" frameborder="0" allowfullscreen></iframe>
@@ -345,7 +333,6 @@
           <p class="text-xs text-gray-400 text-center mt-4"><i class="fas fa-info-circle"></i> Video ini dienkripsi dan tidak dapat diunduh.</p>
         `;
       } else if (tipe === 'vault') {
-        // Mode Copy Paste Vault (Warna Hitam)
         kontenContainer.innerHTML = `
           <div class="bg-gray-900 rounded-xl p-5 relative shadow-lg">
             <div class="flex items-center space-x-2 mb-3 border-b border-gray-700 pb-2">
@@ -361,26 +348,21 @@
           <p class="text-[10px] text-gray-400 mt-3 text-center">Klik tombol salin di atas untuk menyalin teks ke perangkat Anda.</p>
         `;
       } else {
-        // Mode Teks Biasa (HTML)
         kontenContainer.innerHTML = `<div class="prose prose-sm">${bab.Isi_Konten}</div>`;
       }
 
-      // Atur tombol navigasi Prev/Next
       document.getElementById('btn-prev-bab').disabled = (index === 0);
       document.getElementById('btn-next-bab').disabled = (index === daftarMateriAktif.length - 1);
 
       switchView('materi');
-      // Scroll ke paling atas konten
       document.getElementById('materi-konten-container').scrollTop = 0;
     }
 
-    // Navigasi Antar Bab (Tombol Bawah)
     function navigasiBab(arah) {
       if (arah === 'next' && indeksBabAktif < daftarMateriAktif.length - 1) bukaBab(indeksBabAktif + 1);
       if (arah === 'prev' && indeksBabAktif > 0) bukaBab(indeksBabAktif - 1);
     }
 
-    // Fungsi tombol Salin di Vault
     function salinTeksVault(btn) {
       const teks = btn.previousElementSibling.innerText;
       navigator.clipboard.writeText(teks).then(() => {
@@ -397,7 +379,6 @@
       });
     }
 
-    // Fungsi Muat Katalog (Home) - Dipertahankan dari versi sebelumnya
     async function muatKatalog() {
       const container = document.getElementById('katalog-container');
       container.innerHTML = "<p class='text-center text-gray-400 text-xs py-6'>Memuat katalog...</p>";
